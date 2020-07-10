@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection.Emit;
 
 namespace SuperADBManager
 {
@@ -18,6 +19,7 @@ namespace SuperADBManager
         {
             InitializeComponent();
         }
+
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
@@ -35,9 +37,11 @@ namespace SuperADBManager
                     Thread.Sleep(100);
                     proc.Refresh();
                 }
-
+                
                 //SetParent(proc.MainWindowHandle, this.panel1.Handle);
-                SetParent(proc.MainWindowHandle, this.Handle);
+                //SetParent(proc.Handle, this.Handle);
+                SetParent(proc.MainWindowHandle, this.panel1.Handle);
+            
             }
         }
     }
