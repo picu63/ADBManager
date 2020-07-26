@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 
 namespace SuperADBManager
 {
@@ -37,10 +38,11 @@ namespace SuperADBManager
                     Thread.Sleep(100);
                     proc.Refresh();
                 }
-                
-                //SetParent(proc.MainWindowHandle, this.panel1.Handle);
-                //SetParent(proc.Handle, this.Handle);
-                SetParent(proc.MainWindowHandle, this.panel1.Handle);
+                var host = new System.Windows.Forms.Control();
+                host.Focus();
+
+                WinMethods.SetParent(proc.MainWindowHandle, this.panel1.Handle);
+                WinMethods.SetWindowLongPtr(new HandleRef(null, proc.MainWindowHandle), -16, new IntPtr(0x10000000));
             
             }
         }

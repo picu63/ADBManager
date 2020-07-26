@@ -6,27 +6,18 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Diagnostics;
+using System.IO;
 
 namespace SuperADBManager
 {
     public partial class Form2 : Form
-    {
-        //Import window changing function
-        [DllImport("USER32.DLL")]
-        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+    {   
+        private System.Windows.Forms.Control host;
+        private Process proc;
+        //https://www.codeproject.com/Questions/413778/Removing-a-Window-Border-No-Winform
 
-        //Import find window function
-        [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
-        static extern IntPtr FindWindowByCaption(IntPtr ZeroOnly, string lpWindowName);
-
-        //Import force window draw function
-        [DllImport("user32.dll")]
-        static extern bool DrawMenuBar(IntPtr hWnd);
-        [DllImport("user32.dll")]
-        static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
-
-        [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
-        public static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
 
 
 
@@ -36,27 +27,40 @@ namespace SuperADBManager
         private const int WS_CAPTION = 0x00C00000;      //window with a title bar
         private const int WS_SYSMENU = 0x00080000;      //window with no borders etc.
         private const int WS_MINIMIZEBOX = 0x00020000;  //window with minimizebox
+        private const int WS_CHILD = 0x40000000;  
+        private const uint WS_POPUP = 0x80000000;  
 
         public Form2()
         {
             InitializeComponent();
         }
-        private void button1_Click_1(object sender, EventArgs e)
+        static string notepad = "notepad.exe";
+        private void button1_Click(object sender, EventArgs e)
         {
-            IntPtr window = FindWindowByCaption(IntPtr.Zero, WINDOW_NAME);
-            SetWindowLong(window, GWL_STYLE, WS_SYSMENU);
-            SetWindowPos(window, -2, 0, 0, 800, 600, 0x0040);
-            //this.WindowState = FormWindowState.Maximized;
-            DrawMenuBar(window);
+            proc = Process.Start(notepad);
+            proc.WaitForInputIdle();
+
+            while (proc.MainWindowHandle == IntPtr.Zero)
+            {
+                Thread.Sleep(100);
+                proc.Refresh();
+            }
+            StealWindow();
+            
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
+        /// <summary>
+        /// Steals the window from the desktop and embeds it.
+        /// </summary>
+        private void StealWindow()
         {
-            IntPtr window = FindWindowByCaption(IntPtr.Zero, WINDOW_NAME);
-            SetParent(window, this.Handle);
-            //SetWindowLong(window, GWL_STYLE, WS_CAPTION | WS_BORDER | WS_SYSMENU | WS_MINIMIZEBOX);
-            //this.WindowState = FormWindowState.Normal;
-            //DrawMenuBar(window);
+            // Create host surface
+            host = new System.Windows.Forms.Control();
+            host.Focus();
+
+            WinMethods.SetParent(proc.MainWindowHandle, this.panel1.Handle);
+            WinMethods.SetWindowLongPtr(new HandleRef(null, proc.MainWindowHandle), -16, new IntPtr(0x10000000));
+
         }
 
         private void button3_Click_1(object sender, EventArgs e)
