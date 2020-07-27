@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperADBManager", "SuperADBManager\SuperADBManager.csproj", "{D24BC8AC-8ECB-4F49-9005-F04DD185C223}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrcpyWindow", "ScrcpyWindow\ScrcpyWindow.csproj", "{8374D269-5556-4413-8B9D-1220808DB640}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScrcpyWindow", "ScrcpyWindow\ScrcpyWindow.csproj", "{8374D269-5556-4413-8B9D-1220808DB640}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperADBLibrary", "SuperADBLibrary\SuperADBLibrary.csproj", "{6B3D5538-3D51-4761-ACCE-5031DBD7606E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{8374D269-5556-4413-8B9D-1220808DB640}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8374D269-5556-4413-8B9D-1220808DB640}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8374D269-5556-4413-8B9D-1220808DB640}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B3D5538-3D51-4761-ACCE-5031DBD7606E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B3D5538-3D51-4761-ACCE-5031DBD7606E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B3D5538-3D51-4761-ACCE-5031DBD7606E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B3D5538-3D51-4761-ACCE-5031DBD7606E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
