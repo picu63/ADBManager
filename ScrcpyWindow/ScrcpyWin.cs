@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SuperAdbUI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace ScrcpyWindow
+namespace SuperAdbUI
 {
     public partial class ScrcpyWin : Form
     {
@@ -29,19 +30,18 @@ namespace ScrcpyWindow
                 Thread.Sleep(100);
                 proc.Refresh();
             }
-            WinMethods.SetParent(proc.MainWindowHandle, this.Handle);
-            var width = this.Size.Width;
-            var height = this.Size.Height;
+            WinMethods.SetParent(proc.MainWindowHandle, this.scrcpyPanel.Handle);
+            var width = this.scrcpyPanel.Size.Width;
+            var height = this.scrcpyPanel.Size.Height;
             WinMethods.SetWindowLongPtr(new HandleRef(null, proc.MainWindowHandle), -16, new IntPtr(0x10000000));
-            WinMethods.MoveWindow(proc.MainWindowHandle, 0, 0, (int)width-10, (int)height-10, true);
+            WinMethods.MoveWindow(proc.MainWindowHandle, 0, 0, (int)width, (int)height, true);
         }
 
         private void ScrcpyWin_Resize(object sender, EventArgs e)
         {
-            var width = this.Size.Width;
-            var height = this.Size.Height;
+            var width = this.scrcpyPanel.Size.Width;
+            var height = this.scrcpyPanel.Size.Height;
             WinMethods.MoveWindow(proc.MainWindowHandle, 0, 0, (int)width-10, (int)height-10, true);
-
         }
     }
 }

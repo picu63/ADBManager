@@ -1,4 +1,4 @@
-﻿namespace ScrcpyWindow
+﻿namespace SuperAdbUI
 {
     partial class ScrcpyWin
     {
@@ -28,21 +28,48 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.powerBtn = new System.Windows.Forms.Button();
+            this.scrcpyPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
+            // 
+            // powerBtn
+            // 
+            this.powerBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.powerBtn.Location = new System.Drawing.Point(168, 12);
+            this.powerBtn.Name = "powerBtn";
+            this.powerBtn.Size = new System.Drawing.Size(90, 23);
+            this.powerBtn.TabIndex = 0;
+            this.powerBtn.Text = "Power Button";
+            this.powerBtn.UseVisualStyleBackColor = true;
+            // 
+            // scrcpyPanel
+            // 
+            this.scrcpyPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.scrcpyPanel.Location = new System.Drawing.Point(-1, 43);
+            this.scrcpyPanel.Name = "scrcpyPanel";
+            this.scrcpyPanel.Size = new System.Drawing.Size(270, 480);
+            this.scrcpyPanel.TabIndex = 1;
             // 
             // ScrcpyWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(338, 450);
+            this.ClientSize = new System.Drawing.Size(270, 525);
+            this.Controls.Add(this.scrcpyPanel);
+            this.Controls.Add(this.powerBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ScrcpyWin";
             this.Text = "ScrcpyWin";
             this.Load += new System.EventHandler(this.ScrcpyWin_Load);
-            this.Resize += new System.EventHandler(this.ScrcpyWin_Resize);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Button powerBtn;
+        private System.Windows.Forms.Panel scrcpyPanel;
     }
 }
