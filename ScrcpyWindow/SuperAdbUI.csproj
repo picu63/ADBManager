@@ -4,4 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SuperADBLibrary\SuperADBLibrary.csproj" />
+  </ItemGroup>
 </Project>

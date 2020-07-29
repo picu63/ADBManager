@@ -5,6 +5,60 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="scrcpy-win64\adb.exe" />
+    <None Remove="scrcpy-win64\AdbWinApi.dll" />
+    <None Remove="scrcpy-win64\AdbWinUsbApi.dll" />
+    <None Remove="scrcpy-win64\avcodec-58.dll" />
+    <None Remove="scrcpy-win64\avformat-58.dll" />
+    <None Remove="scrcpy-win64\avutil-56.dll" />
+    <None Remove="scrcpy-win64\scrcpy-noconsole.exe" />
+    <None Remove="scrcpy-win64\scrcpy-server" />
+    <None Remove="scrcpy-win64\scrcpy.exe" />
+    <None Remove="scrcpy-win64\SDL2.dll" />
+    <None Remove="scrcpy-win64\swresample-3.dll" />
+    <None Remove="scrcpy-win64\swscale-5.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="scrcpy-win64\adb.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scrcpy-win64\AdbWinApi.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scrcpy-win64\AdbWinUsbApi.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scrcpy-win64\avcodec-58.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scrcpy-win64\avformat-58.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scrcpy-win64\avutil-56.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scrcpy-win64\scrcpy-noconsole.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scrcpy-win64\scrcpy-server">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scrcpy-win64\scrcpy.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scrcpy-win64\SDL2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scrcpy-win64\swresample-3.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scrcpy-win64\swscale-5.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Management" Version="4.7.0" />
   </ItemGroup>
 

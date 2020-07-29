@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -22,7 +23,7 @@ namespace SuperAdbUI
 
         private void ScrcpyWin_Load(object sender, EventArgs e)
         {
-            proc = Process.Start("notepad.exe");
+            proc = Process.Start(SuperADBLibrary.Android.ScrcpyWrapper.GetStartInfo("d5f27533",Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
             proc.WaitForInputIdle();
 
             while (proc.MainWindowHandle == IntPtr.Zero)
