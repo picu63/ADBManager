@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SuperADBLibrary.Models
+namespace SuperAdbLibrary.Models
 {
     public class Device
     {

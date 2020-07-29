@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace SuperADBLibrary.Android
+namespace SuperAdbLibrary.Android
 {
     /// <summary>
     /// Wraps scrcpy functionality.

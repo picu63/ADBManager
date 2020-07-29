@@ -1,4 +1,5 @@
-﻿using SuperAdbUI;
+﻿using SuperAdbLibrary;
+using SuperAdbUI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,12 +11,15 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using SuperAdbLibrary;
+using SuperAdbLibrary.Android;
 
 namespace SuperAdbUI
 {
     public partial class ScrcpyWin : Form
     {
         Process proc;
+        private static float ratio;
         public ScrcpyWin()
         {
             InitializeComponent();
@@ -23,7 +27,7 @@ namespace SuperAdbUI
 
         private void ScrcpyWin_Load(object sender, EventArgs e)
         {
-            proc = Process.Start(SuperADBLibrary.Android.ScrcpyWrapper.GetStartInfo("d5f27533",Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
+            proc = Process.Start(ScrcpyWrapper.GetStartInfo("19161522508608", Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
             proc.WaitForInputIdle();
 
             while (proc.MainWindowHandle == IntPtr.Zero)
@@ -36,13 +40,22 @@ namespace SuperAdbUI
             var height = this.scrcpyPanel.Size.Height;
             WinMethods.SetWindowLongPtr(new HandleRef(null, proc.MainWindowHandle), -16, new IntPtr(0x10000000));
             WinMethods.MoveWindow(proc.MainWindowHandle, 0, 0, (int)width, (int)height, true);
+            ratio = (float)height / (float)width;
         }
 
-        private void ScrcpyWin_Resize(object sender, EventArgs e)
+        private void scrcpyPanel_Resize(object sender, EventArgs e)
         {
-            var width = this.scrcpyPanel.Size.Width;
-            var height = this.scrcpyPanel.Size.Height;
-            WinMethods.MoveWindow(proc.MainWindowHandle, 0, 0, (int)width-10, (int)height-10, true);
+            float width = (float)this.scrcpyPanel.Size.Height/ratio;
+            float height = (float)this.scrcpyPanel.Size.Height;
+            if (proc != null)
+            {
+                WinMethods.MoveWindow(proc.MainWindowHandle, 0, 0, (int)width, (int)height, true);
+            }
+        }
+
+        private void powerBtn_Click(object sender, EventArgs e)
+        {
+            AdbWrapper.PushPowerButton();
         }
     }
 }

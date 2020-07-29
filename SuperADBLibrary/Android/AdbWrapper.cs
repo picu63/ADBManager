@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SuperADBLibrary.Android
+namespace SuperAdbLibrary.Android
 {
     /// <summary>
     /// Wraps ADB functionality.
@@ -26,6 +26,12 @@ namespace SuperADBLibrary.Android
                 .Where(d => d[1] == "device")
                 .Select(d => d[0])
                 .ToList();
+        }
+
+        public static void PushPowerButton()
+        {
+            string arguments = "shell input keyevent 26";
+            RunAdbCommand(arguments);
         }
 
         /// <summary>
@@ -67,7 +73,19 @@ namespace SuperADBLibrary.Android
             Process adb = Process.Start(psi);
             adb.WaitForExit();
         }
+        private static void RunAdbCommand(string arguments)
+        {
+            ProcessStartInfo psi = new ProcessStartInfo()
+            {
+                WorkingDirectory = ToolingPaths.Root,
+                FileName = ToolingPaths.AdbPath,
+                Arguments = arguments,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            };
 
+            Process adb = Process.Start(psi);
+        }
         /// <summary>
         /// Runs ADB with the specified arguments.
         /// </summary>

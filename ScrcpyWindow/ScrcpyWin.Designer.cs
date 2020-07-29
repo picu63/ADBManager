@@ -41,6 +41,7 @@
             this.powerBtn.TabIndex = 0;
             this.powerBtn.Text = "Power Button";
             this.powerBtn.UseVisualStyleBackColor = true;
+            this.powerBtn.Click += new System.EventHandler(this.powerBtn_Click);
             // 
             // scrcpyPanel
             // 
@@ -51,6 +52,7 @@
             this.scrcpyPanel.Name = "scrcpyPanel";
             this.scrcpyPanel.Size = new System.Drawing.Size(270, 480);
             this.scrcpyPanel.TabIndex = 1;
+            this.scrcpyPanel.Resize += new System.EventHandler(this.scrcpyPanel_Resize);
             // 
             // ScrcpyWin
             // 
@@ -59,7 +61,7 @@
             this.ClientSize = new System.Drawing.Size(270, 525);
             this.Controls.Add(this.scrcpyPanel);
             this.Controls.Add(this.powerBtn);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ScrcpyWin";
             this.Text = "ScrcpyWin";
             this.Load += new System.EventHandler(this.ScrcpyWin_Load);

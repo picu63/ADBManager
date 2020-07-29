@@ -10,6 +10,7 @@ namespace SuperAdbUI
 {
     public partial class SuperAdbMain : Form
     {
+        ScrcpyWin scrcpyFrm;
         public SuperAdbMain()
         {
             InitializeComponent();
@@ -17,11 +18,16 @@ namespace SuperAdbUI
 
         private void SuperAdbMain_Load(object sender, EventArgs e)
         {
-            ScrcpyWin frm = new ScrcpyWin() { TopLevel = false, TopMost = true };
-            frm.Size = panel1.Size;
+            scrcpyFrm = new ScrcpyWin() { TopLevel = false, TopMost = true };
+            scrcpyFrm.Size = scrcpyMainPanel.Size;
             //frm.FormBorderStyle = (FormBorderStyle)cboFormStyle.SelectedIndex;
-            this.panel1.Controls.Add(frm);
-            frm.Show();
+            this.scrcpyMainPanel.Controls.Add(scrcpyFrm);
+            scrcpyFrm.Show();
+        }
+
+        private void scrcpyMainPanel_Resize(object sender, EventArgs e)
+        {
+            scrcpyFrm.Size = this.scrcpyMainPanel.Size;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace SuperADBLibrary.Android
+namespace SuperAdbLibrary.Android
 {
     /// <summary>
     /// Maintains paths for scrcpy.
