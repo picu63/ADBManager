@@ -26,6 +26,7 @@ namespace SuperAdbUI
         Process proc;
         private float ratio;
         private Tuple<int, int> resolution;
+        private List<Device> devices;
         public ScrcpyWin()
         {
             InitializeComponent();
@@ -50,7 +51,7 @@ namespace SuperAdbUI
         private void connectBtn_Click(object sender, EventArgs e)
         {
             //string selectedDevice = ((Device)devicesCB.SelectedItem).ID;
-            proc = Process.Start(ScrcpyWrapper.GetStartInfo("19161522508608", Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
+            proc = Process.Start(ScrcpyWrapper.GetStartInfo(devices.First().ID, Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
             proc.WaitForInputIdle();
 
             while (proc.MainWindowHandle == IntPtr.Zero)
@@ -67,8 +68,27 @@ namespace SuperAdbUI
 
         private void ScrcpyWin_Load(object sender, EventArgs e)
         {
-            var t1 = AdbWrapper.DisplaySize();
-            var task2 = t1.ContinueWith(UpdateSize,TaskContinuationOptions.OnlyOnRanToCompletion);
+            AdbWrapper.DisplaySize().ContinueWith(UpdateAspectRatio, TaskContinuationOptions.OnlyOnRanToCompletion);
+            GetDevicesAsync().ContinueWith(x => {
+                if (devices.Count > 0)
+                {
+                    devicesCB.SelectedItem = devices.First();
+                }
+            },TaskContinuationOptions.OnlyOnRanToCompletion);
+        }
+
+        /// <summary>
+        /// Gets the connected Android devices.
+        /// </summary>
+        public async Task GetDevicesAsync()
+        {
+            var devicesTasks = (await AdbWrapper.GetAuthorizedDevicesAsync())
+                .Select(async s => new Device(s, $"{await AdbWrapper.GetDeviceManufacturerAsync(s)} {await AdbWrapper.GetDeviceModelAsync(s)}"))
+                .ToList();
+            Device[] devicesT = await Task.WhenAll(devicesTasks);
+
+            devices = new List<Device>(devicesT);
+
         }
 
         /// <summary>
@@ -76,7 +96,7 @@ namespace SuperAdbUI
         /// </summary>
         /// <param name="task"></param>
         /// <param name="arg2"></param>
-        private void UpdateSize(Task<Tuple<int,int>> task, object arg2)
+        private void UpdateAspectRatio(Task<Tuple<int,int>> task)
         {
             var size = task.Result;
             ratio = (float)size.Item2 / (float)size.Item1;
