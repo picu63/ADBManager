@@ -62,4 +62,13 @@
     <PackageReference Include="System.Management" Version="4.7.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="JCore.IJLogs">
+      <HintPath>..\..\..\..\..\..\Jantar\Repozytoria\JCore\JModels\JModels\bin\Debug\netstandard2.0\JCore.IJLogs.dll</HintPath>
+    </Reference>
+    <Reference Include="JCore.JLogs">
+      <HintPath>..\..\..\..\..\..\Jantar\Repozytoria\JCore\JModels\JModels\bin\Debug\netstandard2.0\JCore.JLogs.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

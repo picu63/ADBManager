@@ -26,5 +26,11 @@ namespace SuperAdbLibrary.Models
         /// Gets the device description.
         /// </summary>
         public string Description { get; }
+
+        /// <summary>
+        /// Parameters of display of android.
+        /// </summary>
+        public Display Display { get; set; }
+
     }
 }
