@@ -27,7 +27,7 @@ namespace SuperAdbUI
 
         private void ScrcpyWin_Load(object sender, EventArgs e)
         {
-            proc = Process.Start(ScrcpyWrapper.GetStartInfo("19161522508608", Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
+            proc = Process.Start(ScrcpyWrapper.GetStartInfo("d5f27533", Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
             proc.WaitForInputIdle();
 
             while (proc.MainWindowHandle == IntPtr.Zero)
@@ -49,7 +49,7 @@ namespace SuperAdbUI
             float height = (float)this.scrcpyPanel.Size.Height;
             if (proc != null)
             {
-                WinMethods.MoveWindow(proc.MainWindowHandle, 0, 0, (int)width, (int)height, true);
+                WinMethods.MoveWindow(proc.MainWindowHandle, this.scrcpyPanel.Width - (int)width, 0, (int)width, (int)height, true);
             }
         }
 

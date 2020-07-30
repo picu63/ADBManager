@@ -61,7 +61,7 @@
             this.ClientSize = new System.Drawing.Size(270, 525);
             this.Controls.Add(this.scrcpyPanel);
             this.Controls.Add(this.powerBtn);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ScrcpyWin";
             this.Text = "ScrcpyWin";
             this.Load += new System.EventHandler(this.ScrcpyWin_Load);
