@@ -50,7 +50,7 @@ namespace SuperAdbUI
         private void connectBtn_Click(object sender, EventArgs e)
         {
             //string selectedDevice = ((Device)devicesCB.SelectedItem).ID;
-            proc = Process.Start(ScrcpyWrapper.GetStartInfo("d5f27533", Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
+            proc = Process.Start(ScrcpyWrapper.GetStartInfo("19161522508608", Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
             proc.WaitForInputIdle();
 
             while (proc.MainWindowHandle == IntPtr.Zero)
@@ -59,18 +59,16 @@ namespace SuperAdbUI
                 proc.Refresh();
             }
             WinMethods.SetParent(proc.MainWindowHandle, this.scrcpyPanel.Handle);
-            var width = (float)this.scrcpyPanel.Size.Width/ratio;
-            var height = (float)this.scrcpyPanel.Size.Height;
             WinMethods.SetWindowLongPtr(new HandleRef(null, proc.MainWindowHandle), -16, new IntPtr(0x10000000));
+            var width = (float)this.scrcpyPanel.Size.Height/ratio;
+            var height = (float)this.scrcpyPanel.Size.Height;
             WinMethods.MoveWindow(proc.MainWindowHandle, 0, 0, (int)width, (int)height, true);
         }
 
         private void ScrcpyWin_Load(object sender, EventArgs e)
         {
-            Debug.WriteLine("To jest testowy string 1");
-
-            var task1 = AdbWrapper.DisplaySize();
-            var task2 = task1.ContinueWith(UpdateSize,TaskContinuationOptions.OnlyOnRanToCompletion);
+            var t1 = AdbWrapper.DisplaySize();
+            var task2 = t1.ContinueWith(UpdateSize,TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
         /// <summary>
