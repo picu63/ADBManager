@@ -50,8 +50,8 @@ namespace SuperAdbUI
 
         private void connectBtn_Click(object sender, EventArgs e)
         {
-            //string selectedDevice = ((Device)devicesCB.SelectedItem).ID;
-            proc = Process.Start(ScrcpyWrapper.GetStartInfo(devices.First().ID, Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
+            string selectedDevice = ((Device)devicesCB.SelectedItem).ID;
+            proc = Process.Start(ScrcpyWrapper.GetStartInfo(selectedDevice, Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
             proc.WaitForInputIdle();
 
             while (proc.MainWindowHandle == IntPtr.Zero)
@@ -72,7 +72,6 @@ namespace SuperAdbUI
             GetDevicesAsync().ContinueWith(x => {
                 if (devices.Count > 0)
                 {
-                    devicesCB.SelectedItem = devices.First();
                 }
             },TaskContinuationOptions.OnlyOnRanToCompletion);
         }
@@ -86,9 +85,10 @@ namespace SuperAdbUI
                 .Select(async s => new Device(s, $"{await AdbWrapper.GetDeviceManufacturerAsync(s)} {await AdbWrapper.GetDeviceModelAsync(s)}"))
                 .ToList();
             Device[] devicesT = await Task.WhenAll(devicesTasks);
-
+            devicesCB.Items.AddRange(devicesT);
             devices = new List<Device>(devicesT);
-
+            devicesCB.DisplayMember = nameof(Device.Description);
+            devicesCB.SelectedItem = devices.First();
         }
 
         /// <summary>
