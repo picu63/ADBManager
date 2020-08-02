@@ -1,8 +1,10 @@
-﻿using SuperADBLibrary;
+﻿using SuperAdbLibrary.Models;
+using SuperADBLibrary;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -103,15 +105,21 @@ namespace SuperAdbLibrary.Android
             TAG_LAST_KEYCODE = 85,
         }
 
-        public static async Task<Tuple<int,int>> DisplaySize()
+        /// <summary>
+        /// Gets the parameters of android screen.
+        /// </summary>
+        /// <returns>Width, Height, Density</returns>
+        public static async Task<Display> DisplaySize()
         {
             try
             {
-                string output = await GetAdbOutputAsync("shell wm size");
-                string resolution = output.Split(' ')[2];
-                int width = int.Parse(resolution.Split('x')[0]);
-                int height = int.Parse(resolution.Split('x')[1].Trim());
-                return Tuple.Create(width,height);
+                Display display = new Display();
+                string[] resolution = (await GetAdbOutputAsync("shell wm size")).Split(' ')[2].Trim().Split('x'); //adb output: Physical size: {width}x{height}\r\n
+                string physicalDensity = (await GetAdbOutputAsync("shell wm density")).Split(' ')[2].Split('\r')[0];
+                display.Width = int.Parse(resolution[0]);
+                display.Height = int.Parse(resolution[1]);
+                display.Density = int.Parse(physicalDensity);
+                return display;
             }
             catch (Exception ex)
             {

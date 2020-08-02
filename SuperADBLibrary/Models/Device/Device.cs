@@ -32,5 +32,15 @@ namespace SuperAdbLibrary.Models
         /// </summary>
         public Display Display { get; set; }
 
+        /// <summary>
+        /// Status is battery charging.
+        /// </summary>
+        public bool IsCharging { get; set; }
+
+        /// <summary>
+        /// Battery of device level.
+        /// </summary>
+        public int BatteryLevel { get; set; }
+
     }
 }

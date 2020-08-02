@@ -69,11 +69,23 @@ namespace SuperAdbUI
         private void ScrcpyWin_Load(object sender, EventArgs e)
         {
             AdbWrapper.DisplaySize().ContinueWith(UpdateAspectRatio, TaskContinuationOptions.OnlyOnRanToCompletion);
-            GetDevicesAsync().ContinueWith(x => {
-                if (devices.Count > 0)
-                {
-                }
-            },TaskContinuationOptions.OnlyOnRanToCompletion);
+            GetDevicesAsync();
+        }
+
+        /// <summary>
+        /// Aktualizuje rozmiar okna
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="arg2"></param>
+        private void UpdateAspectRatio(Task<Display> task)
+        {
+            var display = task.Result;
+            //todo dodać 
+            //foreach (var device in devices)
+            //{
+            //    device.Display.
+            //}
+            ratio = display.AspectRatio;
         }
 
         /// <summary>
@@ -89,17 +101,6 @@ namespace SuperAdbUI
             devices = new List<Device>(devicesT);
             devicesCB.DisplayMember = nameof(Device.Description);
             devicesCB.SelectedItem = devices.First();
-        }
-
-        /// <summary>
-        /// Aktualizuje rozmiar okna
-        /// </summary>
-        /// <param name="task"></param>
-        /// <param name="arg2"></param>
-        private void UpdateAspectRatio(Task<Tuple<int,int>> task)
-        {
-            var size = task.Result;
-            ratio = (float)size.Item2 / (float)size.Item1;
         }
     }
 }

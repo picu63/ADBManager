@@ -58,7 +58,7 @@
             // 
             // connectBtn
             // 
-            this.connectBtn.Location = new System.Drawing.Point(102, 11);
+            this.connectBtn.Location = new System.Drawing.Point(134, 12);
             this.connectBtn.Name = "connectBtn";
             this.connectBtn.Size = new System.Drawing.Size(28, 23);
             this.connectBtn.TabIndex = 3;
@@ -69,9 +69,9 @@
             // devicesCB
             // 
             this.devicesCB.FormattingEnabled = true;
-            this.devicesCB.Location = new System.Drawing.Point(13, 11);
+            this.devicesCB.Location = new System.Drawing.Point(12, 12);
             this.devicesCB.Name = "devicesCB";
-            this.devicesCB.Size = new System.Drawing.Size(83, 23);
+            this.devicesCB.Size = new System.Drawing.Size(115, 23);
             this.devicesCB.TabIndex = 4;
             // 
             // ScrcpyWin
