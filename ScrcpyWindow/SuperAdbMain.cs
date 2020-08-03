@@ -29,7 +29,7 @@ namespace SuperAdbUI
         private object deviceLock = new object();
 
         /// <summary>
-        /// Frane around scrcpyMainPanel.
+        /// Frame around scrcpyMainPanel.
         /// </summary>
         int scrcpyFrmMargin = 6;
 
@@ -64,32 +64,21 @@ namespace SuperAdbUI
         /// <param name="e"></param>
         private void scrcpyMainPanel_Resize(object sender, EventArgs e)
         {
-            float width = (float)this.scrcpyMainPanel.Size.Height / currentDevice.Display.AspectRatio;
+            RefreshLayout();
+        }
+
+        /// <summary>
+        /// Manual sets layout.
+        /// </summary>
+        private void RefreshLayout()
+        {
+            var ratio = (currentDevice.Display == null) ? (float)16 / 9 : currentDevice.Display.AspectRatio;
+            float width = (float)this.scrcpyMainPanel.Size.Height / ratio;
             int height = this.scrcpyMainPanel.Size.Height;
             scrcpyFrm.Size = new Size((int)width - scrcpyFrmMargin, (int)height - scrcpyFrmMargin);
             scrcpyMainPanel.Size = new Size((int)width, (int)height);
             scrcpyMainPanel.Location = new Point(this.Width - scrcpyMainPanel.Size.Width - 30 /*TODO poprawić margines boczny*/, scrcpyMainPanel.Location.Y);
             tabControl.Size = new Size(this.Width - scrcpyMainPanel.Size.Width - 50 /*TODO dać jako parametr*/, tabControl.Height);
-        }
-
-        /// <summary>
-        /// Connect with device.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void connectBtn_Click(object sender, EventArgs e)
-        {
-            var selectedItemFromCb = (Device)devicesCB.SelectedItem;
-            if (currentDevice != selectedItemFromCb)
-            {
-                currentDevice = selectedItemFromCb;
-            }
-            if (scrcpyFrm.proc != null)
-            {
-                scrcpyFrm.proc.Kill();
-            }
-            scrcpyFrm.RunScrcpy(currentDevice);
-
         }
 
         /// <summary>
@@ -102,10 +91,6 @@ namespace SuperAdbUI
             lock (deviceLock)
             {
                 currentDevice = (Device)devicesCB.SelectedItem;
-
-                AdbWrapper.DisplaySize(currentDevice).ContinueWith(t => {
-                    currentDevice.Display = t.Result;
-                }, TaskContinuationOptions.OnlyOnRanToCompletion);
             }
         }
 
@@ -130,6 +115,47 @@ namespace SuperAdbUI
         private void refreshDevicesBtn_Click(object sender, EventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Check if window is in correctly aspect ratio.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SuperAdbMain_ResizeEnd(object sender, EventArgs e)
+        {
+            if ((float)this.Height/this.Width > 1)
+            {
+                this.Size = this.MinimumSize;
+            }
+        }
+
+        /// <summary>
+        /// Connect with device.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void connectBt_Click(object sender, EventArgs e)
+        {
+            var selectedItemFromCb = (Device)devicesCB.SelectedItem;
+            if (currentDevice != selectedItemFromCb)
+            {
+                currentDevice = selectedItemFromCb;
+            }
+            AdbWrapper.GetDisplayInfo(currentDevice).ContinueWith(t => {
+                currentDevice.Display = t.Result;
+                RefreshLayout();
+            }, TaskContinuationOptions.OnlyOnRanToCompletion);
+            if (scrcpyFrm.proc != null)
+            {
+                scrcpyFrm.proc.Kill();
+            }
+            scrcpyFrm.RunScrcpy(currentDevice);
+        }
+
+        private void getDirBtn_Click(object sender, EventArgs e)
+        {
+            AdbWrapper.GetFilesInDirectory("sdcard/Download");
         }
     }
 }

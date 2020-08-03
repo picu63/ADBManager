@@ -105,28 +105,6 @@ namespace SuperAdbLibrary.Android
             TAG_LAST_KEYCODE = 85,
         }
 
-        /// <summary>
-        /// Gets the parameters of android screen.
-        /// </summary>
-        /// <returns>Width, Height, Density</returns>
-        public static async Task<Display> DisplaySize(Device device)
-        {
-            try
-            {
-                Display display = new Display();
-                string[] resolution = (await GetAdbOutputAsync($"-s {device.ID} shell wm size")).Split(' ')[2].Trim().Split('x'); //adb output: Physical size: {width}x{height}\r\n
-                string physicalDensity = (await GetAdbOutputAsync($"-s {device.ID} shell wm density")).Split(' ')[2].Split('\r')[0];
-                display.Width = int.Parse(resolution[0]);
-                display.Height = int.Parse(resolution[1]);
-                display.Density = int.Parse(physicalDensity);
-                return display;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                throw;
-            }
-        }
 
         /// <summary>
         /// Gets connected and authorized devices.
@@ -192,6 +170,7 @@ namespace SuperAdbLibrary.Android
             Process adb = Process.Start(psi);
             adb.WaitForExit();
         }
+
         /// <summary>
         /// Sends to adb commandline coommands.
         /// </summary>
@@ -209,6 +188,7 @@ namespace SuperAdbLibrary.Android
 
             Process adb = Process.Start(psi);
         }
+
         /// <summary>
         /// Runs ADB with the specified arguments.
         /// </summary>
@@ -233,6 +213,35 @@ namespace SuperAdbLibrary.Android
                 string output = await adb.StandardOutput.ReadToEndAsync();
                 return output;
             });
+        }
+
+        /// <summary>
+        /// Gets the parameters of android screen.
+        /// </summary>
+        /// <returns>Width, Height, Density</returns>
+        public static async Task<Display> GetDisplayInfo(Device device)
+        {
+            try
+            {
+                Display display = new Display();
+                string[] resolution = (await GetAdbOutputAsync($"-s {device.ID} shell wm size")).Split(' ')[2].Trim().Split('x'); //adb output: Physical size: {width}x{height}\r\n
+                string physicalDensity = (await GetAdbOutputAsync($"-s {device.ID} shell wm density")).Split(' ')[2].Split('\r')[0];
+                display.Width = int.Parse(resolution[0]);
+                display.Height = int.Parse(resolution[1]);
+                display.Density = int.Parse(physicalDensity);
+                return display;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw;
+            }
+        }
+        public static async Task<List<string>> GetFilesInDirectory(string directoryPath)
+        {
+            string output = await GetAdbOutputAsync($"shell ls {directoryPath}");
+            var list = new List<string>() { output };
+            return list;
         }
     }
 }

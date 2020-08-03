@@ -62,9 +62,5 @@ namespace SuperAdbUI
             var height = (float)this.scrcpyPanel.Size.Height;
             WinMethods.MoveWindow(proc.MainWindowHandle, 0, 0, (int)width, (int)height, true);
         }
-
-
-
-
     }
 }
