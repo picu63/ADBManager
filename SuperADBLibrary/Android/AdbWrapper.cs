@@ -1,5 +1,5 @@
 ﻿using SuperAdbLibrary.Models;
-using SuperADBLibrary;
+using SuperAdbLibrary;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -237,11 +237,18 @@ namespace SuperAdbLibrary.Android
                 throw;
             }
         }
+
+        /// <summary>
+        /// Get all the files and directories in from path.
+        /// </summary>
+        /// <param name="directoryPath">Path of directory.</param>
+        /// <returns></returns>
         public static async Task<List<string>> GetFilesInDirectory(string directoryPath)
         {
-            string output = await GetAdbOutputAsync($"shell ls {directoryPath}");
-            var list = new List<string>() { output };
-            return list;
+            string[] output = (await GetAdbOutputAsync($"shell ls {directoryPath}"))
+                .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+
+            return output.ToList();
         }
     }
 }
