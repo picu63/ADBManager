@@ -3,6 +3,7 @@ using SuperAdbLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,9 +12,26 @@ namespace SuperAdbUI
 {
     public partial class SuperAdbMain : Form
     {
+        /// <summary>
+        /// Object of scrcpyFrm.
+        /// </summary>
         ScrcpyWin scrcpyFrm;
+
+        /// <summary>
+        /// Current selected device from ComboBox.
+        /// </summary>
         private Device currentDevice;
+
+        /// <summary>
+        /// List of all detected devices.
+        /// </summary>
         private List<Device> connectedDevices;
+        private object deviceLock = new object();
+
+        /// <summary>
+        /// Frane around scrcpyMainPanel.
+        /// </summary>
+        int scrcpyFrmMargin = 6;
 
         public SuperAdbMain()
         {
@@ -28,19 +46,30 @@ namespace SuperAdbUI
         }
 
         /// <summary>
-        /// Loading scrcpy form.
+        /// Loading scrcpy form into scrcpyMainPanel.
         /// </summary>
         private void LoadScrcpyFrm()
         {
             scrcpyFrm = new ScrcpyWin() { TopLevel = false, TopMost = true };
-            scrcpyFrm.Size = scrcpyMainPanel.Size;
+            scrcpyFrm.Size = new Size(scrcpyMainPanel.Size.Width - scrcpyFrmMargin, scrcpyMainPanel.Height - scrcpyFrmMargin);
             this.scrcpyMainPanel.Controls.Add(scrcpyFrm);
+            scrcpyFrm.Location = new Point(3, 3);
             scrcpyFrm.Show();
         }
 
+        /// <summary>
+        /// Positioning of <c>scrcpyMainPanel</c>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void scrcpyMainPanel_Resize(object sender, EventArgs e)
         {
-            scrcpyFrm.Size = this.scrcpyMainPanel.Size;
+            float width = (float)this.scrcpyMainPanel.Size.Height / currentDevice.Display.AspectRatio;
+            int height = this.scrcpyMainPanel.Size.Height;
+            scrcpyFrm.Size = new Size((int)width - scrcpyFrmMargin, (int)height - scrcpyFrmMargin);
+            scrcpyMainPanel.Size = new Size((int)width, (int)height);
+            scrcpyMainPanel.Location = new Point(this.Width - scrcpyMainPanel.Size.Width - 30 /*TODO poprawić margines boczny*/, scrcpyMainPanel.Location.Y);
+            tabControl.Size = new Size(this.Width - scrcpyMainPanel.Size.Width - 50 /*TODO dać jako parametr*/, tabControl.Height);
         }
 
         private void connectBtn_Click(object sender, EventArgs e)
@@ -55,8 +84,14 @@ namespace SuperAdbUI
         /// <param name="e"></param>
         private void devicesCB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            currentDevice = (Device)devicesCB.SelectedItem;
-            AdbWrapper.DisplaySize().ContinueWith(UpdateAspectRatio, TaskContinuationOptions.OnlyOnRanToCompletion);
+            lock (deviceLock)
+            {
+                currentDevice = (Device)devicesCB.SelectedItem;
+
+                AdbWrapper.DisplaySize(currentDevice).ContinueWith(t => {
+                    currentDevice.Display = t.Result;
+                }, TaskContinuationOptions.OnlyOnRanToCompletion);
+            }
         }
 
         /// <summary>
@@ -77,14 +112,9 @@ namespace SuperAdbUI
             }
         }
 
-        /// <summary>
-        /// Aktualizuje rozmiar okna
-        /// </summary>
-        /// <param name="task"></param>
-        /// <param name="arg2"></param>
-        private void UpdateAspectRatio(Task<Display> task)
+        private void refreshDevicesBtn_Click(object sender, EventArgs e)
         {
-            currentDevice.Display = task.Result;
+            throw new NotImplementedException();
         }
     }
 }

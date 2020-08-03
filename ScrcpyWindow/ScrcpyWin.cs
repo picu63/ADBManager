@@ -25,12 +25,10 @@ namespace SuperAdbUI
         /// </summary>
         Process proc;
         private float ratio;
-        private List<Device> devices;
         public ScrcpyWin()
         {
             InitializeComponent();
         }
-
 
         private void scrcpyPanel_Resize(object sender, EventArgs e)
         {
@@ -42,21 +40,10 @@ namespace SuperAdbUI
             }
         }
 
-        private void powerBtn_Click(object sender, EventArgs e)
+        internal void RunScrcpy(Device device)
         {
-            AdbWrapper.SendKeycode(AdbWrapper.KeyEvent.POWER_BUTTON);
-        }
-
-
-
-        private void ScrcpyWin_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        internal void RunScrcpy(Device currentDevice)
-        {
-            proc = Process.Start(ScrcpyWrapper.GetStartInfo(currentDevice.ID, Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
+            ratio = device.Display.AspectRatio;
+            proc = Process.Start(ScrcpyWrapper.GetStartInfo(device.ID, Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
             proc.WaitForInputIdle();
 
             while (proc.MainWindowHandle == IntPtr.Zero)

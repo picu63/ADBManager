@@ -109,13 +109,13 @@ namespace SuperAdbLibrary.Android
         /// Gets the parameters of android screen.
         /// </summary>
         /// <returns>Width, Height, Density</returns>
-        public static async Task<Display> DisplaySize()
+        public static async Task<Display> DisplaySize(Device device)
         {
             try
             {
                 Display display = new Display();
-                string[] resolution = (await GetAdbOutputAsync("shell wm size")).Split(' ')[2].Trim().Split('x'); //adb output: Physical size: {width}x{height}\r\n
-                string physicalDensity = (await GetAdbOutputAsync("shell wm density")).Split(' ')[2].Split('\r')[0];
+                string[] resolution = (await GetAdbOutputAsync($"-s {device.ID} shell wm size")).Split(' ')[2].Trim().Split('x'); //adb output: Physical size: {width}x{height}\r\n
+                string physicalDensity = (await GetAdbOutputAsync($"-s {device.ID} shell wm density")).Split(' ')[2].Split('\r')[0];
                 display.Width = int.Parse(resolution[0]);
                 display.Height = int.Parse(resolution[1]);
                 display.Density = int.Parse(physicalDensity);

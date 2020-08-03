@@ -30,12 +30,12 @@
         {
             this.scrcpyMainPanel = new System.Windows.Forms.Panel();
             this.devicesCB = new System.Windows.Forms.ComboBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.refreshDevicesBtn = new System.Windows.Forms.Button();
             this.connectBtn = new System.Windows.Forms.Button();
-            this.tabControl1.SuspendLayout();
+            this.tabControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // scrcpyMainPanel
@@ -45,9 +45,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.scrcpyMainPanel.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.scrcpyMainPanel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.scrcpyMainPanel.Location = new System.Drawing.Point(815, 12);
+            this.scrcpyMainPanel.Location = new System.Drawing.Point(825, 11);
             this.scrcpyMainPanel.Name = "scrcpyMainPanel";
-            this.scrcpyMainPanel.Size = new System.Drawing.Size(333, 592);
+            this.scrcpyMainPanel.Size = new System.Drawing.Size(323, 589);
             this.scrcpyMainPanel.TabIndex = 0;
             this.scrcpyMainPanel.Resize += new System.EventHandler(this.scrcpyMainPanel_Resize);
             // 
@@ -60,23 +60,25 @@
             this.devicesCB.TabIndex = 2;
             this.devicesCB.SelectedIndexChanged += new System.EventHandler(this.devicesCB_SelectedIndexChanged);
             // 
-            // tabControl1
+            // tabControl
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(12, 41);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.Padding = new System.Drawing.Point(0, 0);
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(797, 563);
-            this.tabControl1.TabIndex = 3;
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.tabControl.Controls.Add(this.tabPage1);
+            this.tabControl.Controls.Add(this.tabPage2);
+            this.tabControl.Location = new System.Drawing.Point(12, 47);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.Padding = new System.Drawing.Point(0, 0);
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(807, 557);
+            this.tabControl.TabIndex = 3;
             // 
             // tabPage1
             // 
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(789, 535);
+            this.tabPage1.Size = new System.Drawing.Size(799, 529);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -86,7 +88,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(789, 535);
+            this.tabPage2.Size = new System.Drawing.Size(799, 529);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -99,6 +101,7 @@
             this.refreshDevicesBtn.TabIndex = 4;
             this.refreshDevicesBtn.Text = "Refresh";
             this.refreshDevicesBtn.UseVisualStyleBackColor = true;
+            this.refreshDevicesBtn.Click += new System.EventHandler(this.refreshDevicesBtn_Click);
             // 
             // connectBtn
             // 
@@ -115,15 +118,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1160, 616);
+            this.Controls.Add(this.scrcpyMainPanel);
+            this.Controls.Add(this.tabControl);
             this.Controls.Add(this.connectBtn);
             this.Controls.Add(this.refreshDevicesBtn);
-            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.devicesCB);
-            this.Controls.Add(this.scrcpyMainPanel);
             this.Name = "SuperAdbMain";
             this.Text = "SuperAdbMain";
             this.Load += new System.EventHandler(this.SuperAdbMain_Load);
-            this.tabControl1.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -132,7 +135,7 @@
 
         private System.Windows.Forms.Panel scrcpyMainPanel;
         private System.Windows.Forms.ComboBox devicesCB;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button refreshDevicesBtn;

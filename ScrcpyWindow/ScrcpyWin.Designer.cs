@@ -36,9 +36,9 @@
             this.scrcpyPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.scrcpyPanel.Location = new System.Drawing.Point(-1, 43);
+            this.scrcpyPanel.Location = new System.Drawing.Point(0, 0);
             this.scrcpyPanel.Name = "scrcpyPanel";
-            this.scrcpyPanel.Size = new System.Drawing.Size(270, 480);
+            this.scrcpyPanel.Size = new System.Drawing.Size(270, 523);
             this.scrcpyPanel.TabIndex = 1;
             this.scrcpyPanel.Resize += new System.EventHandler(this.scrcpyPanel_Resize);
             // 
@@ -48,9 +48,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(270, 525);
             this.Controls.Add(this.scrcpyPanel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ScrcpyWin";
             this.Text = "ScrcpyWin";
-            this.Load += new System.EventHandler(this.ScrcpyWin_Load);
             this.ResumeLayout(false);
 
         }
