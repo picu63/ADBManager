@@ -23,7 +23,7 @@ namespace SuperAdbUI
         /// <summary>
         /// Process of scrcpy.
         /// </summary>
-        Process proc;
+        public Process proc;
         private float ratio;
         public ScrcpyWin()
         {
@@ -40,9 +40,13 @@ namespace SuperAdbUI
             }
         }
 
+        /// <summary>
+        /// Run scrcpy exe and place it into panel.
+        /// </summary>
+        /// <param name="device"></param>
         internal void RunScrcpy(Device device)
         {
-            ratio = device.Display.AspectRatio;
+            ratio = (device.Display == null) ? (float)16/9 : device.Display.AspectRatio;
             proc = Process.Start(ScrcpyWrapper.GetStartInfo(device.ID, Screen.AllScreens.Select(s => Math.Min(s.Bounds.Width, s.Bounds.Height)).Max()));
             proc.WaitForInputIdle();
 
@@ -51,6 +55,7 @@ namespace SuperAdbUI
                 Thread.Sleep(100);
                 proc.Refresh();
             }
+
             WinMethods.SetParent(proc.MainWindowHandle, this.scrcpyPanel.Handle);
             WinMethods.SetWindowLongPtr(new HandleRef(null, proc.MainWindowHandle), -16, new IntPtr(0x10000000));
             var width = (float)this.scrcpyPanel.Size.Height / ratio;

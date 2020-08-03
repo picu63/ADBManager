@@ -72,9 +72,24 @@ namespace SuperAdbUI
             tabControl.Size = new Size(this.Width - scrcpyMainPanel.Size.Width - 50 /*TODO dać jako parametr*/, tabControl.Height);
         }
 
+        /// <summary>
+        /// Connect with device.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void connectBtn_Click(object sender, EventArgs e)
         {
+            var selectedItemFromCb = (Device)devicesCB.SelectedItem;
+            if (currentDevice != selectedItemFromCb)
+            {
+                currentDevice = selectedItemFromCb;
+            }
+            if (scrcpyFrm.proc != null)
+            {
+                scrcpyFrm.proc.Kill();
+            }
             scrcpyFrm.RunScrcpy(currentDevice);
+
         }
 
         /// <summary>

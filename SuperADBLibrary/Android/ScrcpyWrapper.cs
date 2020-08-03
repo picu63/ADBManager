@@ -36,5 +36,10 @@ namespace SuperAdbLibrary.Android
             };
             return psi;
         }
+
+        public static void KillScrcpy()
+        {
+
+        }
     }
 }
