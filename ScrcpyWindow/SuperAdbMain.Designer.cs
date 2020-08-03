@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.scrcpyMainPanel = new System.Windows.Forms.Panel();
-            this.connectedDevicesCbox = new System.Windows.Forms.ComboBox();
+            this.devicesCB = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.refreshDevicesBtn = new System.Windows.Forms.Button();
-            this.connectDeviceBtn = new System.Windows.Forms.Button();
+            this.connectBtn = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,13 +51,14 @@
             this.scrcpyMainPanel.TabIndex = 0;
             this.scrcpyMainPanel.Resize += new System.EventHandler(this.scrcpyMainPanel_Resize);
             // 
-            // connectedDevicesCbox
+            // devicesCB
             // 
-            this.connectedDevicesCbox.FormattingEnabled = true;
-            this.connectedDevicesCbox.Location = new System.Drawing.Point(12, 12);
-            this.connectedDevicesCbox.Name = "connectedDevicesCbox";
-            this.connectedDevicesCbox.Size = new System.Drawing.Size(83, 23);
-            this.connectedDevicesCbox.TabIndex = 2;
+            this.devicesCB.FormattingEnabled = true;
+            this.devicesCB.Location = new System.Drawing.Point(12, 12);
+            this.devicesCB.Name = "devicesCB";
+            this.devicesCB.Size = new System.Drawing.Size(83, 23);
+            this.devicesCB.TabIndex = 2;
+            this.devicesCB.SelectedIndexChanged += new System.EventHandler(this.devicesCB_SelectedIndexChanged);
             // 
             // tabControl1
             // 
@@ -99,24 +100,25 @@
             this.refreshDevicesBtn.Text = "Refresh";
             this.refreshDevicesBtn.UseVisualStyleBackColor = true;
             // 
-            // connectDeviceBtn
+            // connectBtn
             // 
-            this.connectDeviceBtn.Location = new System.Drawing.Point(101, 11);
-            this.connectDeviceBtn.Name = "connectDeviceBtn";
-            this.connectDeviceBtn.Size = new System.Drawing.Size(75, 23);
-            this.connectDeviceBtn.TabIndex = 5;
-            this.connectDeviceBtn.Text = "Connect";
-            this.connectDeviceBtn.UseVisualStyleBackColor = true;
+            this.connectBtn.Location = new System.Drawing.Point(101, 11);
+            this.connectBtn.Name = "connectBtn";
+            this.connectBtn.Size = new System.Drawing.Size(75, 23);
+            this.connectBtn.TabIndex = 5;
+            this.connectBtn.Text = "Connect";
+            this.connectBtn.UseVisualStyleBackColor = true;
+            this.connectBtn.Click += new System.EventHandler(this.connectBtn_Click);
             // 
             // SuperAdbMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1160, 616);
-            this.Controls.Add(this.connectDeviceBtn);
+            this.Controls.Add(this.connectBtn);
             this.Controls.Add(this.refreshDevicesBtn);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.connectedDevicesCbox);
+            this.Controls.Add(this.devicesCB);
             this.Controls.Add(this.scrcpyMainPanel);
             this.Name = "SuperAdbMain";
             this.Text = "SuperAdbMain";
@@ -129,11 +131,11 @@
         #endregion
 
         private System.Windows.Forms.Panel scrcpyMainPanel;
-        private System.Windows.Forms.ComboBox connectedDevicesCbox;
+        private System.Windows.Forms.ComboBox devicesCB;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button refreshDevicesBtn;
-        private System.Windows.Forms.Button connectDeviceBtn;
+        private System.Windows.Forms.Button connectBtn;
     }
 }
