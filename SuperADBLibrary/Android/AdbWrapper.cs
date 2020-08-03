@@ -194,7 +194,7 @@ namespace SuperAdbLibrary.Android
         /// </summary>
         /// <param name="arguments">The arguments to run against ADB.</param>
         /// <returns>The output of ADB.</returns>
-        private static Task<string> GetAdbOutputAsync(string arguments)
+        private static Task<string> GetAdbOutputAsync(string arguments, string deviceId = "")
         {
             return Task.Run(async () =>
             {
@@ -241,14 +241,20 @@ namespace SuperAdbLibrary.Android
         /// <summary>
         /// Get all the files and directories in from path.
         /// </summary>
+        /// <param name="device">Device Id</param>
         /// <param name="directoryPath">Path of directory.</param>
         /// <returns></returns>
-        public static async Task<List<string>> GetFilesInDirectory(string directoryPath)
+        public static async Task<List<string>> GetFilesInDirectory(string device, string directoryPath)
         {
-            string[] output = (await GetAdbOutputAsync($"shell ls {directoryPath}"))
+            string[] output = (await GetAdbOutputAsync($"-s {device} shell ls {directoryPath}"))
                 .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
             return output.ToList();
+        }
+
+        public static void PullFileFromDevice()
+        {
+
         }
     }
 }
