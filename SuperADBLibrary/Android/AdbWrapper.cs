@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using JCore.JLog;
 
 namespace SuperAdbLibrary.Android
 {
@@ -104,7 +105,6 @@ namespace SuperAdbLibrary.Android
             SEARCH = 84,
             TAG_LAST_KEYCODE = 85,
         }
-
 
         /// <summary>
         /// Gets connected and authorized devices.
@@ -244,7 +244,7 @@ namespace SuperAdbLibrary.Android
         /// <param name="device">Device Id</param>
         /// <param name="directoryPath">Path of directory.</param>
         /// <returns></returns>
-        public static async Task<List<string>> GetFilesInDirectory(string device, string directoryPath)
+        public async static Task<List<string>> GetFilesInDirectory(string device, string directoryPath)
         {
             string[] output = (await GetAdbOutputAsync($"-s {device} shell ls {directoryPath}"))
                 .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
@@ -252,9 +252,37 @@ namespace SuperAdbLibrary.Android
             return output.ToList();
         }
 
-        public static void PullFileFromDevice()
+        /// <summary>
+        /// Pull all files from list of files to destination folder.
+        /// </summary>
+        /// <param name="device">Device id.</param>
+        /// <param name="files">All files paths on device.</param>
+        /// <param name="destination">Path of direcotry on PC.</param>
+        /// <returns></returns>
+        public static async Task<List<string>> PullAllFilesFromDeviceAsync(string device, List<string> files, string destination)
         {
+            List<Task<string>> tasks = new List<Task<string>>();
+            foreach (var file in files)
+            {
+                tasks.Add(PullFileFromDevice(device, file, destination));
+            }
+            Task.WaitAll(tasks.ToArray());
+            List<string> output = tasks.Select(s => s.Result).ToList();
+            return output;
+        }
 
+        /// <summary>
+        /// Pull file from device and copy it to directory on widnows.
+        /// </summary>
+        /// <param name="device">Device id.</param>
+        /// <param name="file">Full file path on device.</param>
+        /// <param name="destination">Path of direcotry on PC.</param>
+        /// <returns></returns>
+        public static Task<string> PullFileFromDevice(string device, string file, string destination)
+        {
+            string cmd = $"-s {device} pull \"{file}\" \"{destination}\"";
+            
+            return GetAdbOutputAsync(cmd);
         }
     }
 }

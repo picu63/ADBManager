@@ -155,7 +155,7 @@ namespace SuperAdbUI
 
         private void getDirBtn_Click(object sender, EventArgs e)
         {
-            AdbWrapper.GetFilesInDirectory("sdcard/Download");
+            
         }
     }
 }
