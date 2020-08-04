@@ -72,7 +72,7 @@ namespace SuperAdbUI
         /// </summary>
         private void RefreshLayout()
         {
-            var ratio = currentDevice.Display.AspectRatio;
+            var ratio = (currentDevice.Display == null) ? (float)16/9 : currentDevice.Display.AspectRatio;
             float width = (float)this.scrcpyMainPanel.Size.Height / ratio;
             int height = this.scrcpyMainPanel.Size.Height;
             scrcpyFrm.Size = new Size((int)width - scrcpyFrmMargin, (int)height - scrcpyFrmMargin);
@@ -150,7 +150,7 @@ namespace SuperAdbUI
         /// </summary>
         private async void RunScrcpyWindowAsync()
         {
-            currentDevice.Display = await AdbWrapper.GetDisplayInfo(currentDevice);
+            currentDevice.Display = await AdbWrapper.GetDisplayInfoAsync(currentDevice);
             RefreshLayout();
             if (scrcpyFrm.proc != null)
             {

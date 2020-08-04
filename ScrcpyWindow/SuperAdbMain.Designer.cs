@@ -56,7 +56,7 @@
             // devicesCB
             // 
             this.devicesCB.FormattingEnabled = true;
-            this.devicesCB.Location = new System.Drawing.Point(12, 12);
+            this.devicesCB.Location = new System.Drawing.Point(12, 18);
             this.devicesCB.Name = "devicesCB";
             this.devicesCB.Size = new System.Drawing.Size(129, 23);
             this.devicesCB.TabIndex = 2;
@@ -109,7 +109,7 @@
             // 
             this.connectBt.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("connectBt.BackgroundImage")));
             this.connectBt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.connectBt.Location = new System.Drawing.Point(148, 10);
+            this.connectBt.Location = new System.Drawing.Point(147, 13);
             this.connectBt.Name = "connectBt";
             this.connectBt.Size = new System.Drawing.Size(31, 31);
             this.connectBt.TabIndex = 5;

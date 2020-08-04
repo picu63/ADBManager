@@ -138,7 +138,7 @@ namespace SuperAdbLibrary.Android
         /// </summary>
         /// <param name="device">The device ID.</param>
         /// <returns>The device model.</returns>
-        public async static Task<string> GetDeviceModelAsync(string device)
+        public static async Task<string> GetDeviceModelAsync(string device)
         {
             string output = await GetAdbOutputAsync($"-s {device} shell getprop ro.product.model");
             return output.Trim();
@@ -219,7 +219,7 @@ namespace SuperAdbLibrary.Android
         /// Gets the parameters of android screen.
         /// </summary>
         /// <returns>Width, Height, Density</returns>
-        public static async Task<Display> GetDisplayInfo(Device device)
+        public static async Task<Display> GetDisplayInfoAsync(Device device)
         {
             try
             {
@@ -244,7 +244,7 @@ namespace SuperAdbLibrary.Android
         /// <param name="device">Device Id</param>
         /// <param name="directoryPath">Path of directory.</param>
         /// <returns></returns>
-        public async static Task<List<string>> GetFilesInDirectory(string device, string directoryPath)
+        public static async Task<List<string>> GetFilesInDirectory(string device, string directoryPath)
         {
             string[] output = (await GetAdbOutputAsync($"-s {device} shell ls {directoryPath}"))
                 .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
@@ -281,7 +281,6 @@ namespace SuperAdbLibrary.Android
         public static Task<string> PullFileFromDevice(string device, string file, string destination)
         {
             string cmd = $"-s {device} pull \"{file}\" \"{destination}\"";
-            
             return GetAdbOutputAsync(cmd);
         }
     }
