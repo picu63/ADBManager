@@ -68,11 +68,11 @@ namespace SuperAdbUI
         }
 
         /// <summary>
-        /// Manual sets layout.
+        /// Layout setting size of panels. Manual.
         /// </summary>
         private void RefreshLayout()
         {
-            var ratio = (currentDevice.Display == null) ? (float)16 / 9 : currentDevice.Display.AspectRatio;
+            var ratio = currentDevice.Display.AspectRatio;
             float width = (float)this.scrcpyMainPanel.Size.Height / ratio;
             int height = this.scrcpyMainPanel.Size.Height;
             scrcpyFrm.Size = new Size((int)width - scrcpyFrmMargin, (int)height - scrcpyFrmMargin);
@@ -142,17 +142,22 @@ namespace SuperAdbUI
             {
                 currentDevice = selectedItemFromCb;
             }
-            AdbWrapper.GetDisplayInfo(currentDevice).ContinueWith(t => {
-                currentDevice.Display = t.Result;
-                RefreshLayout();
-            }, TaskContinuationOptions.OnlyOnRanToCompletion);
+            RunScrcpyWindowAsync();
+        }
+
+        /// <summary>
+        /// Connect with currentdevice
+        /// </summary>
+        private async void RunScrcpyWindowAsync()
+        {
+            currentDevice.Display = await AdbWrapper.GetDisplayInfo(currentDevice);
+            RefreshLayout();
             if (scrcpyFrm.proc != null)
             {
                 scrcpyFrm.proc.Kill();
             }
             scrcpyFrm.RunScrcpy(currentDevice);
         }
-
         private void getDirBtn_Click(object sender, EventArgs e)
         {
             
