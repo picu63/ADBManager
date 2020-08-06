@@ -7,16 +7,15 @@ namespace SuperAdbLibrary.Test
 {
     public class FilesExplorer
     {
-        const string deviceId = "d5f27533";
         [SetUp]
         public void Setup()
         {
         }
 
         [Test]
-        public void Test01()
+        public void CheckIfGettingAllFiles()
         {
-            List<string> filesAndDirs = SuperAdbLibrary.Android.AdbWrapper.GetFilesInDirectory(deviceId,"sdcard").Result;
+            List<string> filesAndDirs = SuperAdbLibrary.Android.AdbWrapper.GetFilesInDirectory(Properties.deviceId,"sdcard").Result;
             foreach (var file in filesAndDirs)
             {
                 Console.WriteLine(file);
@@ -25,19 +24,19 @@ namespace SuperAdbLibrary.Test
         }
 
         [Test]
-        public void Test02()
+        public void PullingOneFile()
         {
             string destination = @"C:\ADB";
-            string output = AdbWrapper.PullFileFromDevice(deviceId, "sdcard/Android/ANDROID.PERMISSION.TEST", destination).Result;
+            string output = AdbWrapper.PullFileFromDevice(Properties.deviceId, "sdcard/Android/ANDROID.PERMISSION.TEST", destination).Result;
             Console.WriteLine(output, destination);
         }
 
         [Test]
-        public void Test03()
+        public void PullingMultipleFiles()
         {
             string destination = @"C:\ADB\Test";
             List<string> files = new List<string>() { "sdcard/Habitbull.apk", "sdcard/GRID.apk", "sdcard/JMobileInw.apk" };
-            List<string> output = AdbWrapper.PullAllFilesFromDeviceAsync(deviceId, files, destination).Result;
+            List<string> output = AdbWrapper.PullAllFilesFromDeviceAsync(Properties.deviceId, files, destination).Result;
             foreach (var line in output)
             {
                 Console.WriteLine(line);
