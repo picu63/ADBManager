@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using JCore.JLog;
+using System.Runtime.CompilerServices;
 
 namespace SuperAdbLibrary.Android
 {
@@ -16,6 +17,9 @@ namespace SuperAdbLibrary.Android
     /// </summary>
     public static class AdbWrapper
     {
+        /// <summary>
+        /// Key sended to device.
+        /// </summary>
         public enum KeyEvent
         {
             UNKNOWN = 0,
@@ -107,44 +111,6 @@ namespace SuperAdbLibrary.Android
         }
 
         /// <summary>
-        /// Gets connected and authorized devices.
-        /// </summary>
-        /// <returns>A list of device IDs.</returns>
-        public static async Task<List<string>> GetAuthorizedDevicesAsync()
-        {
-            string output = await GetAdbOutputAsync("devices");
-
-            return output.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Skip(1)
-                .Select(s => s.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries))
-                .Where(d => d[1] == "device")
-                .Select(d => d[0])
-                .ToList();
-        }
-
-        /// <summary>
-        /// Gets the device manufacturer.
-        /// </summary>
-        /// <param name="device">The device ID.</param>
-        /// <returns>The device manufacturer.</returns>
-        public static async Task<string> GetDeviceManufacturerAsync(string device)
-        {
-            string output = await GetAdbOutputAsync($"-s {device} shell getprop ro.product.manufacturer");
-            return output.Trim();
-        }
-
-        /// <summary>
-        /// Gets the device model.
-        /// </summary>
-        /// <param name="device">The device ID.</param>
-        /// <returns>The device model.</returns>
-        public static async Task<string> GetDeviceModelAsync(string device)
-        {
-            string output = await GetAdbOutputAsync($"-s {device} shell getprop ro.product.model");
-            return output.Trim();
-        }
-
-        /// <summary>
         /// Sending keycode to android
         /// </summary>
         /// <param name="keyEvent">Keycode for adb.</param>
@@ -175,7 +141,7 @@ namespace SuperAdbLibrary.Android
         /// Sends to adb commandline coommands.
         /// </summary>
         /// <param name="arguments">Command line arguments.</param>
-        public static void RunAdbCommand(string arguments)
+        public static Process RunAdbCommand(string arguments)
         {
             ProcessStartInfo psi = new ProcessStartInfo()
             {
@@ -185,8 +151,7 @@ namespace SuperAdbLibrary.Android
                 UseShellExecute = false,
                 CreateNoWindow = true,
             };
-
-            Process adb = Process.Start(psi);
+            return Process.Start(psi);
         }
 
         /// <summary>
@@ -194,94 +159,30 @@ namespace SuperAdbLibrary.Android
         /// </summary>
         /// <param name="arguments">The arguments to run against ADB.</param>
         /// <returns>The output of ADB.</returns>
-        private static Task<string> GetAdbOutputAsync(string arguments, string deviceId = "")
+        public static Task<string> GetAdbOutputAsync(string arguments)
         {
-            return Task.Run(async () =>
+            var output = Task.Run(async () =>
             {
-                ProcessStartInfo psi = new ProcessStartInfo()
-                {
-                    WorkingDirectory = ToolingPaths.Root,
-                    FileName = ToolingPaths.AdbPath,
-                    Arguments = arguments,
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                };
-
-                Process adb = Process.Start(psi);
+                var adb = RunAdbCommand(arguments);
                 adb.WaitForExit();
-                string output = await adb.StandardOutput.ReadToEndAsync();
-                return output;
+                return await adb.StandardOutput.ReadToEndAsync();
             });
-        }
-
-        /// <summary>
-        /// Gets the parameters of android screen.
-        /// </summary>
-        /// <returns>Width, Height, Density</returns>
-        public static async Task<Display> GetDisplayInfoAsync(Device device)
-        {
-            try
-            {
-                Display display = new Display();
-                string[] resolution = (await GetAdbOutputAsync($"-s {device.ID} shell wm size")).Split(' ')[2].Trim().Split('x'); //adb output: Physical size: {width}x{height}\r\n
-                string physicalDensity = (await GetAdbOutputAsync($"-s {device.ID} shell wm density")).Split(' ')[2].Split('\r')[0];
-                display.Width = int.Parse(resolution[0]);
-                display.Height = int.Parse(resolution[1]);
-                display.Density = int.Parse(physicalDensity);
-                return display;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Get all the files and directories in from path.
-        /// </summary>
-        /// <param name="device">Device Id</param>
-        /// <param name="directoryPath">Path of directory.</param>
-        /// <returns></returns>
-        public static async Task<List<string>> GetFilesInDirectory(string device, string directoryPath)
-        {
-            string[] output = (await GetAdbOutputAsync($"-s {device} shell ls {directoryPath}"))
-                .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-
-            return output.ToList();
-        }
-
-        /// <summary>
-        /// Pull all files from list of files to destination folder.
-        /// </summary>
-        /// <param name="device">Device id.</param>
-        /// <param name="files">All files paths on device.</param>
-        /// <param name="destination">Path of direcotry on PC.</param>
-        /// <returns></returns>
-        public static async Task<List<string>> PullAllFilesFromDeviceAsync(string device, List<string> files, string destination)
-        {
-            List<Task<string>> tasks = new List<Task<string>>();
-            foreach (var file in files)
-            {
-                tasks.Add(PullFileFromDevice(device, file, destination));
-            }
-            Task.WaitAll(tasks.ToArray());
-            List<string> output = tasks.Select(s => s.Result).ToList();
             return output;
         }
 
         /// <summary>
-        /// Pull file from device and copy it to directory on widnows.
+        /// Runs ADB with the specified arguments to concrete device.
         /// </summary>
-        /// <param name="device">Device id.</param>
-        /// <param name="file">Full file path on device.</param>
-        /// <param name="destination">Path of direcotry on PC.</param>
-        /// <returns></returns>
-        public static Task<string> PullFileFromDevice(string device, string file, string destination)
+        /// <param name="arguments">The arguments to run against ADB.</param>
+        /// <returns>The output of ADB.</returns>
+        public static Task<string> GetAdbOutputAsync(string arguments, string device)
         {
-            string cmd = $"-s {device} pull \"{file}\" \"{destination}\"";
-            return GetAdbOutputAsync(cmd);
+            if (!string.IsNullOrEmpty(device))
+            {
+                arguments = $"-s {device} {arguments}";
+            }
+            var output = GetAdbOutputAsync(arguments);
+            return output;
         }
     }
 }
