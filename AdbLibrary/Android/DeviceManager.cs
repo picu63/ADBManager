@@ -97,7 +97,7 @@ namespace SuperADBLibrary.Android
         /// Gets the andoid API/SDK version.
         /// </summary>
         /// <param name="device">Device Id.</param>
-        /// <returns></returns>
+        /// <returns>Api version number.</returns>
         public static async Task<AdbWrapper.AndroidVersion> GetAndroidVersionAsync(string device)
         {
             string output = await AdbWrapper.GetAdbOutputAsync("shell getprop ro.build.version.sdk", device);

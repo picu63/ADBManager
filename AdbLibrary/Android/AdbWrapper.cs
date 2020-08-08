@@ -280,5 +280,33 @@ namespace AdbLibrary.Android
         {
             RunAdbCommand($"tcpip {port}", device);
         }
+        /// <summary>
+        /// Sends the command to reboot to recovery
+        /// </summary>
+        /// <param name="device">Device Id.</param>
+        public static void RebootRecovery(string device)
+        {
+            RunAdbCommand("reboot recovery", device);
+        }
+
+        /// <summary>
+        /// Connecting to device by its ipAddress
+        /// </summary>
+        /// <param name="ipAddress"></param>
+        /// <param name="device"></param>
+        /// <returns>True if Connection succeded, false if connection couldn't start.</returns>
+        public static Task<bool> ConnectToDevice(string ipAddress, string device)
+        {
+            //TODO for repair
+            Task<string> t = GetAdbOutputAsync($"connect {ipAddress}", device);
+            if (t.Wait(15000))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
