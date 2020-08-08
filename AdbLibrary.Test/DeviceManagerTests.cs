@@ -10,19 +10,19 @@ namespace AdbLibrary.Test
 {
     public class DeviceManagerTests
     {
-        [TestCase]
-        public void GetIp()
+        [TestCase("172.29.1.102")]
+        public void CheckIp(string ipAddressToCheck)
         {
-            IPAddress ip = DeviceManager.GetIpOfCurrentWiFiConnection(Properties.deviceId).Result;
-            Console.WriteLine(ip.ToString());
+            IPAddress ip = DeviceManager.GetIpOfCurrentWiFiConnection(Constant.deviceId).Result;
+            Assert.That(ip.ToString() == ipAddressToCheck);
         }
 
-        [TestCase]
+        [Test]
         public void CheckAndroidVersion()
         {
-            AdbWrapper.AndroidVersion version = DeviceManager.GetAndroidVersionAsync(Properties.deviceId).Result;
-            Console.WriteLine(version.ToString());
-            Console.WriteLine((int)version);
+            AdbWrapper.AndroidVersion version = DeviceManager.GetAndroidVersionAsync(Constant.deviceId).Result;
+            Assert.That(version == AdbWrapper.AndroidVersion.Android10);
         }
+        
     }
 }

@@ -4,8 +4,8 @@ using System.Text;
 
 namespace AdbLibrary.Test
 {
-    public static class Properties
+    public static class Constant
     {
-        public static string deviceId = "d5f27533";
+        public const string deviceId = "d5f27533";
     }
 }

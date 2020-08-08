@@ -16,7 +16,7 @@ namespace AdbLibrary.Test
         [Test]
         public void CheckIfGettingAllFiles()
         {
-            List<string> filesAndDirs = FileExplorer.GetFilesInDirectory(Properties.deviceId, "sdcard").Result;
+            List<string> filesAndDirs = FileExplorer.GetFilesInDirectory(Constant.deviceId, "sdcard").Result;
             foreach (var file in filesAndDirs)
             {
                 Console.WriteLine(file);
@@ -28,7 +28,7 @@ namespace AdbLibrary.Test
         public void PullingOneFile()
         {
             string destination = @"C:\ADB";
-            string output = FileExplorer.PullFileFromDevice(Properties.deviceId, "sdcard/Android/ANDROID.PERMISSION.TEST", destination).Result;
+            string output = FileExplorer.PullFileFromDevice(Constant.deviceId, "sdcard/Android/ANDROID.PERMISSION.TEST", destination).Result;
             Console.WriteLine(output, destination);
         }
 
@@ -37,7 +37,7 @@ namespace AdbLibrary.Test
         {
             string destination = @"C:\ADB\Test";
             List<string> files = new List<string>() { "sdcard/Habitbull.apk", "sdcard/GRID.apk", "sdcard/JMobileInw.apk" };
-            List<string> output = FileExplorer.PullAllFilesFromDevice(Properties.deviceId, files, destination);
+            List<string> output = FileExplorer.PullAllFilesFromDevice(Constant.deviceId, files, destination);
             foreach (var line in output)
             {
                 Console.WriteLine(line);

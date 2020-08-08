@@ -162,5 +162,10 @@ namespace AdbManager.GUI
         {
             
         }
+
+        private void aboutAdbManagerMenuItem_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -74,6 +74,12 @@ namespace SuperADBLibrary.Android
                 .Select(d => d[0])
                 .ToList();
         }
+        
+        /// <summary>
+        /// Gets the ip of choosen device.
+        /// </summary>
+        /// <param name="device">Device Id.</param>
+        /// <returns>Ip of wifi address.</returns>
         public static async Task<IPAddress> GetIpOfCurrentWiFiConnection(string device)
         {
             string output = await AdbWrapper.GetAdbOutputAsync("shell ip addr show wlan0");
@@ -86,6 +92,12 @@ namespace SuperADBLibrary.Android
             }
             return IPAddress.Parse(output);
         }
+
+        /// <summary>
+        /// Gets the andoid API/SDK version.
+        /// </summary>
+        /// <param name="device">Device Id.</param>
+        /// <returns></returns>
         public static async Task<AdbWrapper.AndroidVersion> GetAndroidVersionAsync(string device)
         {
             string output = await AdbWrapper.GetAdbOutputAsync("shell getprop ro.build.version.sdk", device);

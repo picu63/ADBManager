@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JCore.JLog;
 using System.Runtime.CompilerServices;
+using NLog;
 
 namespace AdbLibrary.Android
 {
@@ -183,16 +184,23 @@ namespace AdbLibrary.Android
         /// <param name="arguments">Command line arguments.</param>
         public static Process RunAdbCommand(string arguments)
         {
-            ProcessStartInfo psi = new ProcessStartInfo()
+            try
             {
-                WorkingDirectory = ToolingPaths.Root,
-                FileName = ToolingPaths.AdbPath,
-                Arguments = arguments,
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-            };
-            return Process.Start(psi);
+                ProcessStartInfo psi = new ProcessStartInfo()
+                {
+                    WorkingDirectory = ToolingPaths.Root,
+                    FileName = ToolingPaths.AdbPath,
+                    Arguments = arguments,
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                };
+                return Process.Start(psi);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -215,24 +223,52 @@ namespace AdbLibrary.Android
         /// <returns>The output of ADB.</returns>
         public static async Task<string> GetAdbOutputAsync(string arguments)
         {
-            var adb = RunAdbCommand(arguments);
-            adb.WaitForExit();
-            return await adb.StandardOutput.ReadToEndAsync();
+            if (!string.IsNullOrEmpty(arguments))
+            {
+                var adb = RunAdbCommand(arguments);
+                if (adb.WaitForExit(5000))
+                {
+                    return await adb.StandardOutput.ReadToEndAsync();
+                }
+                else
+                {
+                    throw new Exception("Cannot get adb exit info.");
+                }
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
         }
 
         /// <summary>
-        /// Runs ADB with the specified arguments to concrete device.
+        /// Runs ADB with the specified arguments to certain device.
         /// </summary>
         /// <param name="arguments">The arguments to run against ADB.</param>
         /// <returns>The output of ADB.</returns>
-        public static Task<string> GetAdbOutputAsync(string arguments, string device)
+        public static async Task<string> GetAdbOutputAsync(string arguments, string device)
         {
             if (!string.IsNullOrEmpty(device))
             {
                 arguments = $"-s {device} {arguments}";
             }
-            var output = GetAdbOutputAsync(arguments);
-            return output;
+            else
+            {
+                throw new Exception("Device id cannot be null or empty");
+            }
+            if  (!string.IsNullOrEmpty(arguments))
+            {
+                var output = await GetAdbOutputAsync(arguments);
+                if (output.Contains($"device '{device}' not found"))
+                {
+                    throw new Exception("Device not found.");
+                }
+                return output; 
+            }
+            else
+            {
+                throw new ArgumentNullException(arguments);
+            }
         }
 
         /// <summary>
