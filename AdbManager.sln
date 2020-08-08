@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperAdbUI", "ScrcpyWindow\SuperAdbUI.csproj", "{8374D269-5556-4413-8B9D-1220808DB640}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdbManager.GUI", "AdbManager.GUI\AdbManager.GUI.csproj", "{8374D269-5556-4413-8B9D-1220808DB640}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperADBLibrary", "SuperADBLibrary\SuperADBLibrary.csproj", "{6B3D5538-3D51-4761-ACCE-5031DBD7606E}"
 EndProject
