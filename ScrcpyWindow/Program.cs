@@ -17,7 +17,7 @@ namespace SuperAdbUI
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FileExplorer());
+            Application.Run(new SuperAdbMain());
         }
     }
 }

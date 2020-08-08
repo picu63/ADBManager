@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -70,6 +73,24 @@ namespace SuperADBLibrary.Android
                 .Where(d => d[1] == "device")
                 .Select(d => d[0])
                 .ToList();
+        }
+        public static async Task<IPAddress> GetIpOfCurrentWiFiConnection(string device)
+        {
+            string output = await AdbWrapper.GetAdbOutputAsync("shell ip addr show wlan0");
+            if (output.Contains("inet"))
+            {
+                int startIp = output.IndexOf("inet")+5;
+                output = output.Substring(startIp);
+                int endIp = output.IndexOf('/');
+                output = output.Substring(0, endIp);
+            }
+            return IPAddress.Parse(output);
+        }
+        public static async Task<AdbWrapper.AndroidVersion> GetAndroidVersionAsync(string device)
+        {
+            string output = await AdbWrapper.GetAdbOutputAsync("shell getprop ro.build.version.sdk", device);
+            output = output.Trim();
+            return (AdbWrapper.AndroidVersion)int.Parse(output);
         }
     }
 }

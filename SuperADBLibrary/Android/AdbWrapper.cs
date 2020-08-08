@@ -111,6 +111,28 @@ namespace SuperAdbLibrary.Android
         }
 
         /// <summary>
+        /// Android API versions.
+        /// </summary>
+        public enum AndroidVersion
+        {
+            Android10 = 29,
+            Pie9 = 28,
+            Oreo_8_1 = 27,
+            Oreo_8_0 =  26,
+            Nougat_7_1 = 25,
+            Nougat_7_0 = 24,
+            Marshmallow_6 = 23,
+            Lollipop_5_1 = 22,
+            Lollipop_5_0 = 21,
+            KitKat_4_4 = 19,
+            JellyBean_4_3 = 18,
+            JellyBean_4_2 = 17,
+            JellyBean_4_1 = 16,
+            ICS_4_0_4 = 15,
+            ICS_4_0_2 = 14,
+        }
+
+        /// <summary>
         /// Sending keycode to android
         /// </summary>
         /// <param name="keyEvent">Keycode for adb.</param>
@@ -138,6 +160,24 @@ namespace SuperAdbLibrary.Android
         }
 
         /// <summary>
+        /// Ensure that there is a server running
+        /// </summary>
+        public static void StartServer()
+        {
+            ProcessStartInfo psi = new ProcessStartInfo()
+            {
+                WorkingDirectory = ToolingPaths.Root,
+                FileName = ToolingPaths.AdbPath,
+                Arguments = "start-server",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            };
+
+            Process adb = Process.Start(psi);
+            adb.WaitForExit();
+        }
+
+        /// <summary>
         /// Sends to adb commandline coommands.
         /// </summary>
         /// <param name="arguments">Command line arguments.</param>
@@ -148,6 +188,7 @@ namespace SuperAdbLibrary.Android
                 WorkingDirectory = ToolingPaths.Root,
                 FileName = ToolingPaths.AdbPath,
                 Arguments = arguments,
+                RedirectStandardOutput = true,
                 UseShellExecute = false,
                 CreateNoWindow = true,
             };
@@ -155,19 +196,28 @@ namespace SuperAdbLibrary.Android
         }
 
         /// <summary>
+        /// Sends to adb commandline coommands.
+        /// </summary>
+        /// <param name="arguments">Command line arguments.</param>
+        public static Process RunAdbCommand(string arguments, string device)
+        {
+            if (!string.IsNullOrEmpty(device))
+            {
+                arguments = $"-s {device} {arguments}";
+            }
+            return RunAdbCommand(arguments);
+        }
+
+        /// <summary>
         /// Runs ADB with the specified arguments.
         /// </summary>
         /// <param name="arguments">The arguments to run against ADB.</param>
         /// <returns>The output of ADB.</returns>
-        public static Task<string> GetAdbOutputAsync(string arguments)
+        public static async Task<string> GetAdbOutputAsync(string arguments)
         {
-            var output = Task.Run(async () =>
-            {
-                var adb = RunAdbCommand(arguments);
-                adb.WaitForExit();
-                return await adb.StandardOutput.ReadToEndAsync();
-            });
-            return output;
+            var adb = RunAdbCommand(arguments);
+            adb.WaitForExit();
+            return await adb.StandardOutput.ReadToEndAsync();
         }
 
         /// <summary>
@@ -183,6 +233,16 @@ namespace SuperAdbLibrary.Android
             }
             var output = GetAdbOutputAsync(arguments);
             return output;
+        }
+
+        /// <summary>
+        /// Unlocking adb via tcpip.
+        /// </summary>
+        /// <param name="device">Device Id.</param>
+        /// <param name="port">Port for unlocking device.</param>
+        public static void UnlockTcpip(string device, int port = 5555)
+        {
+            RunAdbCommand($"tcpip {port}", device);
         }
     }
 }

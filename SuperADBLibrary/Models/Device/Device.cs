@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SuperAdbLibrary.Android;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -41,6 +42,11 @@ namespace SuperAdbLibrary.Models
         /// Battery of device level.
         /// </summary>
         public int BatteryLevel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value of android api version.
+        /// </summary>
+        public AdbWrapper.AndroidVersion Version { get; set; }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SuperAdbLibrary.Android;
 using SuperAdbLibrary.Models;
+using SuperADBLibrary.Android;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -99,8 +100,8 @@ namespace SuperAdbUI
         /// </summary>
         public async void GetDevicesAsync()
         {
-            var devicesTasks = (await AdbWrapper.GetAuthorizedDevicesAsync())
-                .Select(async s => new Device(s, $"{await AdbWrapper.GetDeviceManufacturerAsync(s)} {await AdbWrapper.GetDeviceModelAsync(s)}"))
+            var devicesTasks = (await DeviceManager.GetAuthorizedDevicesAsync())
+                .Select(async s => new Device(s, $"{await DeviceManager.GetDeviceManufacturerAsync(s)} {await DeviceManager.GetDeviceModelAsync(s)}"))
                 .ToList();
             Device[] devicesT = await Task.WhenAll(devicesTasks);
             if (devicesT.Length != connectedDevices.Count)
@@ -150,7 +151,7 @@ namespace SuperAdbUI
         /// </summary>
         private async void RunScrcpyWindowAsync()
         {
-            currentDevice.Display = await AdbWrapper.GetDisplayInfoAsync(currentDevice);
+            currentDevice.Display = await DeviceManager.GetDisplayInfoAsync(currentDevice);
             RefreshLayout();
             if (scrcpyFrm.proc != null)
             {
