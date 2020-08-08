@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdbManager.GUI", "AdbManager.GUI\AdbManager.GUI.csproj", "{8374D269-5556-4413-8B9D-1220808DB640}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperADBLibrary", "SuperADBLibrary\SuperADBLibrary.csproj", "{6B3D5538-3D51-4761-ACCE-5031DBD7606E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdbLibrary", "AdbLibrary\AdbLibrary.csproj", "{6B3D5538-3D51-4761-ACCE-5031DBD7606E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperAdbLibrary.Test", "SuperAdbLibrary.Test\SuperAdbLibrary.Test.csproj", "{0741CC41-DDA5-432B-9754-4E0E86D778A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdbLibrary.Test", "AdbLibrary.Test\AdbLibrary.Test.csproj", "{0741CC41-DDA5-432B-9754-4E0E86D778A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
