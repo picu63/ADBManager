@@ -1,12 +1,12 @@
 ﻿using NUnit.Framework;
-using SuperAdbLibrary.Android;
+using AdbLibrary.Android;
 using SuperADBLibrary.Android;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
-namespace SuperAdbLibrary.Test
+namespace AdbLibrary.Test
 {
     public class DeviceManagerTests
     {

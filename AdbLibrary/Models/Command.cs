@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SuperAdbLibrary
+namespace AdbLibrary
 {
     public class Command
     {

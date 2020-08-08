@@ -1,5 +1,5 @@
-﻿using SuperAdbLibrary.Android;
-using SuperAdbLibrary.Models;
+﻿using AdbLibrary.Android;
+using AdbLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

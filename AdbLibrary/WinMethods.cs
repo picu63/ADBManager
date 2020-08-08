@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace SuperAdbLibrary
+namespace AdbLibrary
 {
     public static class WinMethods
     {

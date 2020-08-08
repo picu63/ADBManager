@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SuperAdbLibrary
+namespace AdbLibrary
 {
     public class HelperService
     {

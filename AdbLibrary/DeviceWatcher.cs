@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Management;
 using System.Text;
 
-namespace SuperAdbLibrary
+namespace AdbLibrary
 {
     public class DeviceWatcher : IDisposable
     {

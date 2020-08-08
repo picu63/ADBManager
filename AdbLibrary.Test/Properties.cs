@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SuperAdbLibrary.Test
+namespace AdbLibrary.Test
 {
     public static class Properties
     {

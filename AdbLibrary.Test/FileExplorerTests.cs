@@ -1,10 +1,10 @@
 using NUnit.Framework;
-using SuperAdbLibrary.Android;
+using AdbLibrary.Android;
 using SuperADBLibrary.Android;
 using System;
 using System.Collections.Generic;
 
-namespace SuperAdbLibrary.Test
+namespace AdbLibrary.Test
 {
     public class FilesExplorerTests
     {

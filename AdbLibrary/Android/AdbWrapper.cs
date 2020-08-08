@@ -1,5 +1,5 @@
-﻿using SuperAdbLibrary.Models;
-using SuperAdbLibrary;
+﻿using AdbLibrary.Models;
+using AdbLibrary;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using JCore.JLog;
 using System.Runtime.CompilerServices;
 
-namespace SuperAdbLibrary.Android
+namespace AdbLibrary.Android
 {
     /// <summary>
     /// Wraps ADB functionality.

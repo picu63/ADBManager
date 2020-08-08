@@ -1,4 +1,4 @@
-﻿namespace SuperAdbLibrary.Models
+﻿namespace AdbLibrary.Models
 {
     public class Display
     {

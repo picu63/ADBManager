@@ -5,7 +5,7 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SuperADBLibrary\SuperADBLibrary.csproj" />
+    <ProjectReference Include="..\AdbLibrary\AdbLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

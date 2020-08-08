@@ -1,9 +1,9 @@
-﻿using SuperAdbLibrary.Android;
+﻿using AdbLibrary.Android;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SuperAdbLibrary.Models
+namespace AdbLibrary.Models
 {
     public class Device
     {

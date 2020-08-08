@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SuperADBLibrary\SuperADBLibrary.csproj" />
+    <ProjectReference Include="..\AdbLibrary\AdbLibrary.csproj" />
   </ItemGroup>
 
 </Project>
