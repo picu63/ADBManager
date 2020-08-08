@@ -1,5 +1,4 @@
-﻿using SuperAdbLibrary;
-using AdbManager;
+﻿using AdbManager;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,10 +10,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using SuperAdbLibrary.Android;
 using System.Threading.Tasks;
-using SuperAdbLibrary.Models;
 using System.Collections.ObjectModel;
+using AdbLibrary.Models;
+using AdbLibrary;
+using AdbLibrary.Android;
 
 namespace AdbManager.GUI
 {

@@ -1,6 +1,4 @@
 ﻿using AdbLibrary.Models;
-using SuperAdbLibrary.Android;
-using SuperAdbLibrary.Models;
 using SuperADBLibrary.Android;
 using System;
 using System.Collections.Generic;
@@ -12,7 +10,7 @@ using System.Windows.Forms;
 
 namespace AdbManager.GUI
 {
-    public partial class SuperAdbMain : Form
+    public partial class MainWindow : Form
     {
         /// <summary>
         /// Object of scrcpyFrm.
@@ -35,7 +33,7 @@ namespace AdbManager.GUI
         /// </summary>
         int scrcpyFrmMargin = 6;
 
-        public SuperAdbMain()
+        public MainWindow()
         {
             InitializeComponent();
             connectedDevices = new List<Device>();

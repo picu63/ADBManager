@@ -1,6 +1,6 @@
 ﻿namespace AdbManager.GUI
 {
-    partial class SuperAdbMain
+    partial class MainWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SuperAdbMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.scrcpyMainPanel = new System.Windows.Forms.Panel();
             this.devicesCB = new System.Windows.Forms.ComboBox();
             this.tabControl = new System.Windows.Forms.TabControl();
