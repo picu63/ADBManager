@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SuperAdbUI
+namespace AdbManager.GUI
 {
     public partial class SuperAdbMain : Form
     {

@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace SuperAdbUI
+namespace AdbManager.GUI
 {
     public partial class FileExplorer : Form
     {

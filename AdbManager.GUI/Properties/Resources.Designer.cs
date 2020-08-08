@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SuperAdbUI.Properties {
+namespace AdbManager.Properties {
     using System;
     
     

@@ -1,4 +1,4 @@
-﻿namespace SuperAdbUI
+﻿namespace AdbManager.GUI
 {
     partial class ScrcpyWin
     {

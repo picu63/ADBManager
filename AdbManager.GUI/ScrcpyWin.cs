@@ -1,5 +1,5 @@
 ﻿using SuperAdbLibrary;
-using SuperAdbUI;
+using AdbManager;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using SuperAdbLibrary.Models;
 using System.Collections.ObjectModel;
 
-namespace SuperAdbUI
+namespace AdbManager.GUI
 {
     public partial class ScrcpyWin : Form
     {
