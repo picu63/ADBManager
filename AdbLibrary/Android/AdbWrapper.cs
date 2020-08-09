@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using JCore.JLog;
 using System.Runtime.CompilerServices;
-using NLog;
 
 namespace AdbLibrary.Android
 {
@@ -295,7 +294,7 @@ namespace AdbLibrary.Android
         /// <param name="ipAddress"></param>
         /// <param name="device"></param>
         /// <returns>True if Connection succeded, false if connection couldn't start.</returns>
-        public static Task<bool> ConnectToDevice(string ipAddress, string device)
+        public static bool ConnectToDevice(string ipAddress, string device)
         {
             //TODO for repair
             Task<string> t = GetAdbOutputAsync($"connect {ipAddress}", device);
