@@ -71,4 +71,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="aapt\" />
+  </ItemGroup>
+
 </Project>

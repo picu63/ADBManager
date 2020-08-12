@@ -225,6 +225,7 @@ namespace AdbLibrary.Android
             if (!string.IsNullOrEmpty(arguments))
             {
                 var adb = RunAdbCommand(arguments);
+                //TODO add reading from adb shell output without StandardOutput.ReadToEndAsync
                 if (adb.WaitForExit(5000))
                 {
                     return await adb.StandardOutput.ReadToEndAsync();

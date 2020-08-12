@@ -1,5 +1,4 @@
 ﻿using AdbLibrary.Android;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +9,6 @@ namespace SuperADBLibrary.Android
 {
     public static class FileExplorer
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
         /// <summary>
         /// Get all the files and directories in from path.
         /// </summary>
@@ -24,6 +21,12 @@ namespace SuperADBLibrary.Android
                 .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
             return output.ToList();
+        }
+
+        public static async void PushFileToDevice(string file, string destination, string device)
+        {
+            string cmd = $"push \"{file}\" \"{destination}\"";
+            await AdbWrapper.GetAdbOutputAsync(cmd, device);
         }
 
         /// <summary>
@@ -61,7 +64,6 @@ namespace SuperADBLibrary.Android
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Problem with pulling from device");
                 throw;
             }
         }

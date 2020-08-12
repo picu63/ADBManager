@@ -21,6 +21,8 @@ namespace AdbLibrary.Android
 
             AdbPath = Path.Combine(Root, AdbName);
             ScrcpyPath = Path.Combine(Root, ScrcpyNoConsoleName);
+            Aaptx86Path = Path.Combine(Root, Aaptx86Name);
+            AaptArmPath = Path.Combine(Root, AaptArmName);
         }
         /// <summary>
         /// The name of the ADB executable.
@@ -38,6 +40,17 @@ namespace AdbLibrary.Android
         private const string ToolingDirectory = "scrcpy-win64";
 
         /// <summary>
+        /// The name of the aapt for x86 cpu architecture.
+        /// </summary>
+        public const string Aaptx86Name = "aapt-x86-pie";
+
+        /// <summary>
+        /// The name of the aapt for arm cpu architecture.
+        /// </summary>
+        public const string AaptArmName = "aapt-arm-pie";
+
+
+        /// <summary>
         /// Gets the path of the directory containing Android tools.
         /// </summary>
         public static string Root { get; }
@@ -52,5 +65,14 @@ namespace AdbLibrary.Android
         /// </summary>
         public static string ScrcpyPath { get; }
 
+        /// <summary>
+        /// Gets the path to the aapt for x86 cpu architecture.
+        /// </summary>
+        public static string Aaptx86Path { get; }
+
+        /// <summary>
+        /// Gets the path to the aapt for arm cpu architecture.
+        /// </summary>
+        public static string AaptArmPath { get; }
     }
 }
