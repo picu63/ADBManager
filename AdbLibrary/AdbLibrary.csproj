@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="scrcpy-win64\aapt-arm-pie" />
+    <None Remove="scrcpy-win64\aapt-x86-pie" />
     <None Remove="scrcpy-win64\adb.exe" />
     <None Remove="scrcpy-win64\AdbWinApi.dll" />
     <None Remove="scrcpy-win64\AdbWinUsbApi.dll" />
@@ -20,6 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="scrcpy-win64\aapt-arm\aapt.jar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="scrcpy-win64\aapt-x86\aapt.jar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="scrcpy-win64\adb.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

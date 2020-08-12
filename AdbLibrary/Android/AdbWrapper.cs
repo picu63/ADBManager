@@ -181,7 +181,7 @@ namespace AdbLibrary.Android
         /// Sends to adb commandline coommands.
         /// </summary>
         /// <param name="arguments">Command line arguments.</param>
-        public static Process RunAdbCommand(string arguments)
+        private static Process RunAdbCommand(string arguments)
         {
             try
             {
@@ -225,14 +225,22 @@ namespace AdbLibrary.Android
             if (!string.IsNullOrEmpty(arguments))
             {
                 var adb = RunAdbCommand(arguments);
-                //TODO add reading from adb shell output without StandardOutput.ReadToEndAsync
-                if (adb.WaitForExit(5000))
+
+                try
                 {
-                    return await adb.StandardOutput.ReadToEndAsync();
+                    if (adb.WaitForExit(5000))
+                    {
+                        return await adb.StandardOutput.ReadToEndAsync();
+                    }
+                    else
+                    {
+                        throw new Exception("Cannot get adb exit info.");
+                    }
                 }
-                else
+                catch (AggregateException)
                 {
-                    throw new Exception("Cannot get adb exit info.");
+
+                    throw;
                 }
             }
             else
@@ -259,9 +267,13 @@ namespace AdbLibrary.Android
             if  (!string.IsNullOrEmpty(arguments))
             {
                 var output = await GetAdbOutputAsync(arguments);
-                if (output.Contains($"device '{device}' not found"))
+                if (output.Contains($"not found"))
                 {
                     throw new Exception("Device not found.");
+                }
+                else if (output.Contains($"more than one"))
+                {
+                    throw new Exception("error: more than one device/emulator");
                 }
                 return output; 
             }

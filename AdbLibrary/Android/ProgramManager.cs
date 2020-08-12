@@ -14,7 +14,7 @@ namespace AdbLibrary.Android
             App app = new App();
             string output = await AdbWrapper.GetAdbOutputAsync($"shell pm list packages -f {packageName}", device);
             string baseApkPath = output.Substring(0, output.LastIndexOf('=')).Substring(output.IndexOf(':')+1);
-            string appName = await AdbWrapper.GetAdbOutputAsync($"shell /data/local/tmp/aapt-arm-pie", device);
+            string appName = await AdbWrapper.GetAdbOutputAsync($"shell /data/local/tmp/aapt.jar dump badging", device);
             return app;
         }
         public static async Task<List<App>> GetAllApps(string device)

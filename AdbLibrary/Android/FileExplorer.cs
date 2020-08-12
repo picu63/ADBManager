@@ -23,10 +23,18 @@ namespace SuperADBLibrary.Android
             return output.ToList();
         }
 
-        public static async void PushFileToDevice(string file, string destination, string device)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="destination"></param>
+        /// <param name="device"></param>
+        /// <returns>True if file pushed succesfull.</returns>
+        public static async Task<bool> PushFileToDevice(string file, string destination, string device)
         {
             string cmd = $"push \"{file}\" \"{destination}\"";
-            await AdbWrapper.GetAdbOutputAsync(cmd, device);
+            string output = await AdbWrapper.GetAdbOutputAsync(cmd, device);
+            return output.Contains("pushed");
         }
 
         /// <summary>

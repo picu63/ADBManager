@@ -15,5 +15,11 @@ namespace AdbLibrary.Test
             string packageName = "com.google.android.calendar";
             Task.WaitAll(ProgramManager.GetApp(packageName, Constant.deviceId));
         }
+
+        [Test]
+        public void GetOutputFromAapt()
+        {
+            AaptWrapper.RunAaptCommand(Constant.deviceId);
+        }
     }
 }

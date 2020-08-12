@@ -21,9 +21,15 @@ namespace AdbLibrary.Android
 
             AdbPath = Path.Combine(Root, AdbName);
             ScrcpyPath = Path.Combine(Root, ScrcpyNoConsoleName);
-            Aaptx86Path = Path.Combine(Root, Aaptx86Name);
-            AaptArmPath = Path.Combine(Root, AaptArmName);
+            Aaptx86Path = Path.Combine(Root, Aaptx86Directory, AaptName);
+            AaptArmPath = Path.Combine(Root, AaptArmDirectory, AaptName);
         }
+
+        /// <summary>
+        /// Temporary directory on device.
+        /// </summary>
+        internal const string TmpDirectory = "/data/local/tmp";
+
         /// <summary>
         /// The name of the ADB executable.
         /// </summary>
@@ -42,14 +48,14 @@ namespace AdbLibrary.Android
         /// <summary>
         /// The name of the aapt for x86 cpu architecture.
         /// </summary>
-        public const string Aaptx86Name = "aapt-x86-pie";
+        private const string Aaptx86Directory = "aapt-x86";
 
         /// <summary>
         /// The name of the aapt for arm cpu architecture.
         /// </summary>
-        public const string AaptArmName = "aapt-arm-pie";
+        private const string AaptArmDirectory = "aapt-arm";
 
-
+        private const string AaptName = "aapt.jar";
         /// <summary>
         /// Gets the path of the directory containing Android tools.
         /// </summary>
@@ -66,13 +72,18 @@ namespace AdbLibrary.Android
         public static string ScrcpyPath { get; }
 
         /// <summary>
-        /// Gets the path to the aapt for x86 cpu architecture.
+        /// Gets the path on desktop to the aapt for x86 cpu architecture.
         /// </summary>
         public static string Aaptx86Path { get; }
 
         /// <summary>
-        /// Gets the path to the aapt for arm cpu architecture.
+        /// Gets the path on desktop to the aapt for arm cpu architecture.
         /// </summary>
         public static string AaptArmPath { get; }
+
+        /// <summary>
+        /// Gets the full path from Aapt on device.
+        /// </summary>
+        public static string AaptPathOnDevice { get {return TmpDirectory + "aapt.jar"; } internal set { AaptPathOnDevice = value; } }
     }
 }
