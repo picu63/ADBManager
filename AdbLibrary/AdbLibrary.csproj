@@ -5,63 +5,63 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="scrcpy-win64\aapt-arm-pie" />
-    <None Remove="scrcpy-win64\aapt-x86-pie" />
-    <None Remove="scrcpy-win64\adb.exe" />
-    <None Remove="scrcpy-win64\AdbWinApi.dll" />
-    <None Remove="scrcpy-win64\AdbWinUsbApi.dll" />
-    <None Remove="scrcpy-win64\avcodec-58.dll" />
-    <None Remove="scrcpy-win64\avformat-58.dll" />
-    <None Remove="scrcpy-win64\avutil-56.dll" />
-    <None Remove="scrcpy-win64\scrcpy-noconsole.exe" />
-    <None Remove="scrcpy-win64\scrcpy-server" />
-    <None Remove="scrcpy-win64\scrcpy.exe" />
-    <None Remove="scrcpy-win64\SDL2.dll" />
-    <None Remove="scrcpy-win64\swresample-3.dll" />
-    <None Remove="scrcpy-win64\swscale-5.dll" />
+    <None Remove="android-lib\aapt-arm-pie" />
+    <None Remove="android-lib\aapt-x86-pie" />
+    <None Remove="android-lib\adb.exe" />
+    <None Remove="android-lib\AdbWinApi.dll" />
+    <None Remove="android-lib\AdbWinUsbApi.dll" />
+    <None Remove="android-lib\avcodec-58.dll" />
+    <None Remove="android-lib\avformat-58.dll" />
+    <None Remove="android-lib\avutil-56.dll" />
+    <None Remove="android-lib\scrcpy-noconsole.exe" />
+    <None Remove="android-lib\scrcpy-server" />
+    <None Remove="android-lib\scrcpy.exe" />
+    <None Remove="android-lib\SDL2.dll" />
+    <None Remove="android-lib\swresample-3.dll" />
+    <None Remove="android-lib\swscale-5.dll" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="scrcpy-win64\aapt-arm\aapt.jar">
+    <Content Include="android-lib\aapt-arm\aapt.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\aapt-x86\aapt.jar">
+    <Content Include="android-lib\aapt-x86\aapt.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\adb.exe">
+    <Content Include="android-lib\adb.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\AdbWinApi.dll">
+    <Content Include="android-lib\AdbWinApi.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\AdbWinUsbApi.dll">
+    <Content Include="android-lib\AdbWinUsbApi.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\avcodec-58.dll">
+    <Content Include="android-lib\avcodec-58.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\avformat-58.dll">
+    <Content Include="android-lib\avformat-58.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\avutil-56.dll">
+    <Content Include="android-lib\avutil-56.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\scrcpy-noconsole.exe">
+    <Content Include="android-lib\scrcpy-noconsole.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\scrcpy-server">
+    <Content Include="android-lib\scrcpy-server">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\scrcpy.exe">
+    <Content Include="android-lib\scrcpy.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\SDL2.dll">
+    <Content Include="android-lib\SDL2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\swresample-3.dll">
+    <Content Include="android-lib\swresample-3.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scrcpy-win64\swscale-5.dll">
+    <Content Include="android-lib\swscale-5.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
