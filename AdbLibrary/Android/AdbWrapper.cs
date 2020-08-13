@@ -178,78 +178,6 @@ namespace AdbLibrary.Android
         }
 
         /// <summary>
-        /// Sends to adb commandline coommands.
-        /// </summary>
-        /// <param name="arguments">Command line arguments.</param>
-        private static Process RunAdbCommand(string arguments)
-        {
-            try
-            {
-                ProcessStartInfo psi = new ProcessStartInfo()
-                {
-                    WorkingDirectory = ToolingPaths.Root,
-                    FileName = ToolingPaths.AdbPath,
-                    Arguments = arguments,
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                };
-                return Process.Start(psi);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Sends to adb commandline coommands.
-        /// </summary>
-        /// <param name="arguments">Command line arguments.</param>
-        public static Process RunAdbCommand(string arguments, string device)
-        {
-            if (!string.IsNullOrEmpty(device))
-            {
-                arguments = $"-s {device} {arguments}";
-            }
-            return RunAdbCommand(arguments);
-        }
-
-        /// <summary>
-        /// Runs ADB with the specified arguments.
-        /// </summary>
-        /// <param name="arguments">The arguments to run against ADB.</param>
-        /// <returns>The output of ADB.</returns>
-        public static async Task<string> GetAdbOutputAsync(string arguments)
-        {
-            if (!string.IsNullOrEmpty(arguments))
-            {
-                var adb = RunAdbCommand(arguments);
-
-                try
-                {
-                    if (adb.WaitForExit(5000))
-                    {
-                        return await adb.StandardOutput.ReadToEndAsync();
-                    }
-                    else
-                    {
-                        throw new Exception("Cannot get adb exit info.");
-                    }
-                }
-                catch (AggregateException)
-                {
-
-                    throw;
-                }
-            }
-            else
-            {
-                throw new ArgumentNullException();
-            }
-        }
-
-        /// <summary>
         /// Runs ADB with the specified arguments to certain device.
         /// </summary>
         /// <param name="arguments">The arguments to run against ADB.</param>
@@ -264,7 +192,7 @@ namespace AdbLibrary.Android
             {
                 throw new Exception("Device id cannot be null or empty");
             }
-            if  (!string.IsNullOrEmpty(arguments))
+            if (!string.IsNullOrEmpty(arguments))
             {
                 var output = await GetAdbOutputAsync(arguments);
                 if (output.Contains($"not found"))
@@ -275,7 +203,7 @@ namespace AdbLibrary.Android
                 {
                     throw new Exception("error: more than one device/emulator");
                 }
-                return output; 
+                return output;
             }
             else
             {
@@ -320,5 +248,112 @@ namespace AdbLibrary.Android
                 return false;
             }
         }
+        /// <summary>
+        /// Sends to adb commandline coommands to certain device id.
+        /// </summary>
+        /// <param name="arguments">Command line arguments.</param>
+        /// <param name="device">Device id.</param>
+        public static void RunAdbCommand(string arguments, string device)
+        {
+            if (!string.IsNullOrEmpty(device))
+            {
+                arguments = $"-s {device} {arguments}";
+            }
+            RunAdbCommand(arguments);
+        }
+
+        /// <summary>
+        /// Runs ADB with the specified arguments.
+        /// </summary>
+        /// <param name="arguments">The arguments to run against ADB.</param>
+        /// <returns>The output of ADB.</returns>
+        public static async Task<string> GetAdbOutputAsync(string arguments)
+        {
+            if (!string.IsNullOrEmpty(arguments))
+            {
+                try
+                {
+                    return await Task.Run(() =>
+                    {
+                        return AdbOutput(arguments);
+                    });
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
+        }
+
+        /// <summary>
+        /// Sends to adb commandline coommands.
+        /// </summary>
+        /// <param name="arguments">Command line arguments.</param>
+        private static void RunAdbCommand(string arguments)
+        {
+            try
+            {
+                var process = CreateAdbProcess(arguments);
+                process.Start();
+                process.WaitForExit();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Returns output from adb.
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <returns></returns>
+        private static string AdbOutput(string arguments)
+        {
+            var process = CreateAdbProcess(arguments);
+            process.Start();
+            var output = new List<string>();
+            while (process.StandardOutput.Peek() > -1)
+            {
+                output.Add(process.StandardOutput.ReadLine());
+            }
+
+            while (process.StandardError.Peek() > -1)
+            {
+                output.Add(process.StandardError.ReadLine());
+            }
+            process.WaitForExit();
+            string combindedString = string.Join(Environment.NewLine, output.ToArray());
+            return combindedString;
+        }
+
+        /// <summary>
+        /// Create a process of adb.
+        /// </summary>
+        /// <param name="arguments">All of the arguments for adb.</param>
+        /// <returns></returns>
+        private static Process CreateAdbProcess(string arguments)
+        {
+            Process process = new Process();
+            process.StartInfo = new ProcessStartInfo()
+            {
+
+                WorkingDirectory = ToolingPaths.Root,
+                FileName = ToolingPaths.AdbPath,
+                Arguments = arguments,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            };
+            return process;
+        }
+
     }
 }

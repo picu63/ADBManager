@@ -70,7 +70,7 @@ namespace SuperADBLibrary.Android
                 string cmd = $"pull \"{file}\" \"{destination}\"";
                 return AdbWrapper.GetAdbOutputAsync(cmd, device);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

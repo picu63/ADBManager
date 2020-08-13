@@ -1,8 +1,10 @@
 ﻿using SuperADBLibrary.Android;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AdbLibrary.Android
@@ -25,17 +27,18 @@ namespace AdbLibrary.Android
             return pushed;
         }
 
-        public static async Task<string> RunAaptCommand(string device)
-        {
-            string output = await AdbWrapper.GetAdbOutputAsync("shell \"/data/local/tmp/aapt.a\" dump badging \"/data/app/com.google.android.calendar-cMQvji6ZR0gf2cFHjBp7Kw==/base.apk\" | findstr /R /C:\"icon\"");
-            string output2 = await AaptWrapper.GetAaptOutputAsync("dump badging \"/data/app/com.google.android.calendar-cMQvji6ZR0gf2cFHjBp7Kw==/base.apk\" | findstr /R /C:\"icon\"");
-            return null;
-        }
 
-        private static Task<string> GetAaptOutputAsync(string arguments, string device)
+        public static string GetAaptOutput(string arguments, string device)
         {
+            if (string.IsNullOrEmpty(device))
+            {
+                throw new ArgumentNullException();
+            }
+
             string cmd = $"shell \"{ToolingPaths.AaptPathOnDevice}\" {arguments}";
+            string output = AdbWrapper.GetAdbOutputAsync(cmd, device).Result;
 
+            return output;
         }
     }
 }

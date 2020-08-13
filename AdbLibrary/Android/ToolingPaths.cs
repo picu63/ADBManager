@@ -55,6 +55,9 @@ namespace AdbLibrary.Android
         /// </summary>
         private const string AaptArmDirectory = "aapt-arm";
 
+        /// <summary>
+        /// The name of aapt to send to device.
+        /// </summary>
         private const string AaptName = "aapt.jar";
         /// <summary>
         /// Gets the path of the directory containing Android tools.
@@ -84,6 +87,11 @@ namespace AdbLibrary.Android
         /// <summary>
         /// Gets the full path from Aapt on device.
         /// </summary>
-        public static string AaptPathOnDevice { get {return TmpDirectory + "aapt.jar"; } internal set { AaptPathOnDevice = value; } }
+        public static string AaptPathOnDevice { get {return TmpDirectory + "/" + AaptName; }}
+
+        /// <summary>
+        /// Path of file for temporary output.
+        /// </summary>
+        public static string TmpFile { get { return $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\tmp.txt"; } }
     }
 }
