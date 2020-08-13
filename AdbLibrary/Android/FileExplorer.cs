@@ -17,7 +17,7 @@ namespace SuperADBLibrary.Android
         /// <returns></returns>
         public static async Task<List<string>> GetFilesInDirectory(string device, string directoryPath)
         {
-            string[] output = (await AdbWrapper.GetAdbOutputAsync($"-s {device} shell ls {directoryPath}"))
+            string[] output = (await AdbWrapper.GetAdbOutputAsync($"shell ls {directoryPath}", device))
                 .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
             return output.ToList();

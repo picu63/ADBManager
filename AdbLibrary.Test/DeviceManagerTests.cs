@@ -14,6 +14,7 @@ namespace AdbLibrary.Test
         public void CheckIp(string ipAddressToCheck)
         {
             IPAddress ip = DeviceManager.GetIpOfCurrentWiFiConnection(Constant.deviceId).Result;
+            Console.WriteLine("Ip from device: " + ip.ToString());
             Assert.That(ip.ToString() == ipAddressToCheck);
         }
 

@@ -311,25 +311,25 @@ namespace AdbLibrary.Android
 
         /// <summary>
         /// Returns output from adb.
+        /// https://stackoverflow.com/questions/7160187/standardoutput-readtoend-hangs
         /// </summary>
         /// <param name="arguments"></param>
         /// <returns></returns>
         private static string AdbOutput(string arguments)
         {
             var process = CreateAdbProcess(arguments);
+            var sb = new StringBuilder();
             process.Start();
-            var output = new List<string>();
             while (process.StandardOutput.Peek() > -1)
             {
-                output.Add(process.StandardOutput.ReadLine());
+                sb.AppendLine(process.StandardOutput.ReadLine());
             }
-
             while (process.StandardError.Peek() > -1)
             {
-                output.Add(process.StandardError.ReadLine());
+                sb.AppendLine(process.StandardError.ReadLine());
             }
             process.WaitForExit();
-            string combindedString = string.Join(Environment.NewLine, output.ToArray());
+            string combindedString = sb.ToString();
             return combindedString;
         }
 
