@@ -6,5 +6,6 @@ namespace AdbLibrary.Models
 {
     public class App
     {
+        public string PackagePath { get; set; }
     }
 }

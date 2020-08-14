@@ -43,7 +43,7 @@ namespace AdbLibrary.Android
         /// <summary>
         /// The name of the directory containing android executables.
         /// </summary>
-        private const string ToolingDirectory = "scrcpy-win64";
+        private const string ToolingDirectory = "android-lib";
 
         /// <summary>
         /// The name of the aapt for x86 cpu architecture.

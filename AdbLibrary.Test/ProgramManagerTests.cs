@@ -1,4 +1,5 @@
 ﻿using AdbLibrary.Android;
+using AdbLibrary.Models;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ namespace AdbLibrary.Test
         public void GetAppFromPackage()
         {
             string packageName = "com.google.android.calendar";
-            Task.WaitAll(ProgramManager.GetApp(packageName, Constant.deviceId));
+            App app = ProgramManager.GetApp(packageName, Constant.deviceId).Result;
+            Console.WriteLine(app.PackagePath);
         }
     }
 }

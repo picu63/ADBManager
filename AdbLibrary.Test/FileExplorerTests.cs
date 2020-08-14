@@ -1,6 +1,6 @@
 using NUnit.Framework;
 using AdbLibrary.Android;
-using SuperADBLibrary.Android;
+using AdbLibrary.Android;
 using System;
 using System.Collections.Generic;
 

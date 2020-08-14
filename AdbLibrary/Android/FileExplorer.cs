@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SuperADBLibrary.Android
+namespace AdbLibrary.Android
 {
     public static class FileExplorer
     {
@@ -17,14 +17,14 @@ namespace SuperADBLibrary.Android
         /// <returns></returns>
         public static async Task<List<string>> GetFilesInDirectory(string device, string directoryPath)
         {
-            string[] output = (await AdbWrapper.GetAdbOutputAsync($"shell ls {directoryPath}", device))
-                .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string output = await AdbWrapper.GetAdbOutputAsync($"shell ls {directoryPath}", device);
+            string[] allLines = output.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
-            return output.ToList();
+            return allLines.ToList();
         }
 
         /// <summary>
-        /// 
+        /// Pushing file into device.
         /// </summary>
         /// <param name="file"></param>
         /// <param name="destination"></param>

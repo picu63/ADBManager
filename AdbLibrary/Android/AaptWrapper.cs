@@ -1,4 +1,4 @@
-﻿using SuperADBLibrary.Android;
+﻿using AdbLibrary.Android;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,7 +32,11 @@ namespace AdbLibrary.Android
         {
             if (string.IsNullOrEmpty(device))
             {
-                throw new ArgumentNullException();
+                throw new Exception($"{nameof(device)} cannot be null or empty");
+            }
+            if (string.IsNullOrEmpty(arguments))
+            {
+                throw new Exception($"{nameof(arguments)} cannot be null or empty");
             }
 
             string cmd = $"shell \"{ToolingPaths.AaptPathOnDevice}\" {arguments}";

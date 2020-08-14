@@ -273,17 +273,37 @@ namespace AdbLibrary.Android
             {
                 try
                 {
-                    return await Task.Run(() =>
+                    // First Method
+                    var process = CreateAdbProcess(arguments);
+                    process.Start();
+                    string output = await process.StandardOutput.ReadToEndAsync();
+
+                    if (!string.IsNullOrEmpty(output))
                     {
-                        return AdbOutput(arguments);
-                    });
+                        return output;
+                    }
+                    else
+                    {
+                        // Second Method if first failed
+                        var sb = new StringBuilder();
+                        while (process.StandardOutput.Peek() > -1)
+                        {
+                            sb.AppendLine(process.StandardOutput.ReadLine());
+                        }
+                        while (process.StandardError.Peek() > -1)
+                        {
+                            sb.AppendLine(process.StandardError.ReadLine());
+                        }
+                        process.WaitForExit();
+                        string combindedString = sb.ToString();
+                        return combindedString;
+                    }
+
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
-
             }
             else
             {
@@ -307,30 +327,6 @@ namespace AdbLibrary.Android
             {
                 throw;
             }
-        }
-
-        /// <summary>
-        /// Returns output from adb.
-        /// https://stackoverflow.com/questions/7160187/standardoutput-readtoend-hangs
-        /// </summary>
-        /// <param name="arguments"></param>
-        /// <returns></returns>
-        private static string AdbOutput(string arguments)
-        {
-            var process = CreateAdbProcess(arguments);
-            var sb = new StringBuilder();
-            process.Start();
-            while (process.StandardOutput.Peek() > -1)
-            {
-                sb.AppendLine(process.StandardOutput.ReadLine());
-            }
-            while (process.StandardError.Peek() > -1)
-            {
-                sb.AppendLine(process.StandardError.ReadLine());
-            }
-            process.WaitForExit();
-            string combindedString = sb.ToString();
-            return combindedString;
         }
 
         /// <summary>

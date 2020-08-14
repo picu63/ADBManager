@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdbManager.GUI", "AdbManage
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdbLibrary", "AdbLibrary\AdbLibrary.csproj", "{6B3D5538-3D51-4761-ACCE-5031DBD7606E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdbLibrary.Test", "AdbLibrary.Test\AdbLibrary.Test.csproj", "{0741CC41-DDA5-432B-9754-4E0E86D778A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdbLibrary.Test", "AdbLibrary.Test\AdbLibrary.Test.csproj", "{0741CC41-DDA5-432B-9754-4E0E86D778A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdbApkManager", "AndroidAppsPrinter\AdbApkManager.csproj", "{C3E3868D-CC82-4616-9BF2-CD927DFD027C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{0741CC41-DDA5-432B-9754-4E0E86D778A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0741CC41-DDA5-432B-9754-4E0E86D778A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0741CC41-DDA5-432B-9754-4E0E86D778A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3E3868D-CC82-4616-9BF2-CD927DFD027C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3E3868D-CC82-4616-9BF2-CD927DFD027C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3E3868D-CC82-4616-9BF2-CD927DFD027C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3E3868D-CC82-4616-9BF2-CD927DFD027C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

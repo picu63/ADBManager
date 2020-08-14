@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using AdbLibrary.Android;
-using SuperADBLibrary.Android;
+using AdbLibrary.Android;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -18,11 +18,12 @@ namespace AdbLibrary.Test
             Assert.That(ip.ToString() == ipAddressToCheck);
         }
 
-        [Test]
-        public void CheckAndroidVersion()
+        [TestCase(AdbWrapper.AndroidVersion.Oreo_8_1)]
+        public void CheckAndroidVersion(AdbWrapper.AndroidVersion androidVersion)
         {
             AdbWrapper.AndroidVersion version = DeviceManager.GetAndroidVersionAsync(Constant.deviceId).Result;
-            Assert.That(version == AdbWrapper.AndroidVersion.Android10);
+            Console.WriteLine($"{version}");
+            Assert.That(version == androidVersion);
         }
         
     }

@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="aapt\**" />
+    <EmbeddedResource Remove="aapt\**" />
+    <None Remove="aapt\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="android-lib\aapt-arm-pie" />
     <None Remove="android-lib\aapt-x86-pie" />
     <None Remove="android-lib\adb.exe" />
@@ -77,10 +83,6 @@
     <Reference Include="JCore.JLogs">
       <HintPath>..\..\..\..\..\..\Jantar\Repozytoria\JCore\JModels\JModels\bin\Debug\netstandard2.0\JCore.JLogs.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="aapt\" />
   </ItemGroup>
 
 </Project>

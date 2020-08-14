@@ -9,11 +9,6 @@ namespace AdbLibrary.Test
 {
     public class AaptWrapperTests
     {
-        [Test]
-        public static void PushAaptToDevice()
-        {
-            AaptWrapper.PushAaptToDevice(Constant.deviceId);
-        }
 
         [Test]
         public static void GetOutputFromAapt()

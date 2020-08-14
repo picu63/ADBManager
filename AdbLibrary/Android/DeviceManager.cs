@@ -1,5 +1,4 @@
-﻿using AdbLibrary.Android;
-using AdbLibrary.Models;
+﻿using AdbLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +9,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SuperADBLibrary.Android
+namespace AdbLibrary.Android
 {
     /// <summary>
     /// Methods getting info from device
@@ -82,7 +81,7 @@ namespace SuperADBLibrary.Android
         /// <returns>Ip of wifi address.</returns>
         public static async Task<IPAddress> GetIpOfCurrentWiFiConnection(string device)
         {
-            string output = await AdbWrapper.GetAdbOutputAsync("shell ip addr show wlan0");
+            string output = await AdbWrapper.GetAdbOutputAsync("shell ip addr show wlan0", device);
             if (output.Contains("inet"))
             {
                 int startIp = output.IndexOf("inet")+5;
