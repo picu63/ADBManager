@@ -99,8 +99,8 @@ namespace AdbManager.GUI
         /// </summary>
         public async void GetDevicesAsync()
         {
-            var devicesTasks = (await DeviceManager.GetAuthorizedDevicesAsync())
-                .Select(async s => new Device(s, $"{await DeviceManager.GetDeviceManufacturerAsync(s)} {await DeviceManager.GetDeviceModelAsync(s)}"))
+            var devicesTasks = (await DeviceManager.GetAuthorizedDevicesIdAsync())
+                .Select(async s => new Device(s) { Description = $"{await DeviceManager.GetDeviceManufacturerAsync(s)} {await DeviceManager.GetDeviceModelAsync(s)}" })
                 .ToList();
             Device[] devicesT = await Task.WhenAll(devicesTasks);
             if (devicesT.Length != connectedDevices.Count)

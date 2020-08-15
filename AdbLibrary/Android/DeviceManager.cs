@@ -58,20 +58,75 @@ namespace AdbLibrary.Android
             string output = await AdbWrapper.GetAdbOutputAsync($"shell getprop ro.product.manufacturer", device);
             return output.Trim();
         }
+
         /// <summary>
-        /// Gets connected and authorized devices.
+        /// Gets connected and authorized devices Ids.
         /// </summary>
         /// <returns>A list of device IDs.</returns>
-        public static async Task<List<string>> GetAuthorizedDevicesAsync()
+        public static async Task<List<Device>> GetAuthorizedDevicesIdAsync()
         {
-            string output = await AdbWrapper.GetAdbOutputAsync("devices");
+            AdbWrapper.StartServer();
+            List<Device> devices = new List<Device>();
+            string output = await AdbWrapper.GetAdbOutputAsync("devices -l");
+            string[] lines = output.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Skip(1).Where(l => l.ToString().Contains("device")).ToArray();
+            foreach (string line in lines)
+            {
+                string deviceId = line.Substring(0, line.IndexOf("device")).Trim();
+                string[] prop = line.Substring(line.IndexOf("device")).Split(' ');
 
-            return output.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Skip(1)
-                .Select(s => s.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries))
-                .Where(d => d[1] == "device")
-                .Select(d => d[0])
-                .ToList();
+                Device device = new Device(deviceId);
+                device.Product = prop[1].Split(':')[1];
+                device.Model = prop[2].Split(':')[1];
+                device.DeviceName = prop[3].Split(':')[1];
+                device.TransportId = int.Parse(prop[4].Split(':')[1]);
+
+                devices.Add(device);
+            }
+            return devices;
+                
+        }
+
+        /// <summary>
+        /// Gets the all infomation from android device.
+        /// </summary>
+        /// <param name="device">Device id.</param>
+        /// <returns>Device object.</returns>
+        public static async Task<Device> GetAuthorizedDevice(string deviceId)
+        {
+            Device device = new Device(deviceId);
+            device.Description = $"{await GetDeviceManufacturerAsync(deviceId)} {await GetDeviceModelAsync(deviceId)}";
+            return device;
+        }
+
+        /// <summary>
+        /// Gets all the authorized devices.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Device> GetAuthorizedDevices()
+        {
+            List<Device> devices = GetAuthorizedDevicesIdAsync().Result;
+            foreach (var device in devices)
+            {
+                devices.Add(GetAuthorizedDevice(device.ID).Result);
+            }
+            return devices;
+        }
+
+        /// <summary>
+        /// Gets all the authorized devices asynchrously.
+        /// </summary>
+        /// <returns>List of all devices.</returns>
+        public static async Task<List<Device>> GetAuthorizedDevicesAsync()
+        {
+            List<Device> devices = await GetAuthorizedDevicesIdAsync();
+            Task<Device>[] tasks = new Task<Device>[devices.Count];
+            for (int i = 0; i < devices.Count; i++)
+            {
+                tasks[i] = Task.Run(() => GetAuthorizedDevice(devices[i].ID));
+            }
+            devices.AddRange(await Task.WhenAll(tasks));
+            return devices;
         }
         
         /// <summary>

@@ -178,6 +178,43 @@ namespace AdbLibrary.Android
         }
 
         /// <summary>
+        /// Unlocking adb via tcpip.
+        /// </summary>
+        /// <param name="device">Device Id.</param>
+        /// <param name="port">Port for unlocking device.</param>
+        public static void UnlockTcpip(string device, int port = 5555)
+        {
+            RunAdbCommand($"tcpip {port}", device);
+        }
+
+        /// <summary>
+        /// Sends the command to reboot to recovery
+        /// </summary>
+        /// <param name="device">Device Id.</param>
+        public static void RebootRecovery(string device)
+        {
+            RunAdbCommand("reboot recovery", device);
+        }
+
+        /// <summary>
+        /// Connecting to device by its ipAddress
+        /// </summary>
+        /// <param name="ipAddress">Wlan Ip of device.</param>
+        /// <returns>True if Connection succeded, false if connection couldn't start.</returns>
+        public static bool ConnectToDevice(string ipAddress)
+        {
+            Task<string> t = GetAdbOutputAsync($"connect {ipAddress}");
+            if (t.Wait(10000))
+            {
+                return t.Result.Contains("connected");
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Runs ADB with the specified arguments to certain device.
         /// </summary>
         /// <param name="arguments">The arguments to run against ADB.</param>
@@ -210,58 +247,6 @@ namespace AdbLibrary.Android
                 throw new ArgumentNullException(arguments);
             }
         }
-
-        /// <summary>
-        /// Unlocking adb via tcpip.
-        /// </summary>
-        /// <param name="device">Device Id.</param>
-        /// <param name="port">Port for unlocking device.</param>
-        public static void UnlockTcpip(string device, int port = 5555)
-        {
-            RunAdbCommand($"tcpip {port}", device);
-        }
-        /// <summary>
-        /// Sends the command to reboot to recovery
-        /// </summary>
-        /// <param name="device">Device Id.</param>
-        public static void RebootRecovery(string device)
-        {
-            RunAdbCommand("reboot recovery", device);
-        }
-
-        /// <summary>
-        /// Connecting to device by its ipAddress
-        /// </summary>
-        /// <param name="ipAddress"></param>
-        /// <param name="device"></param>
-        /// <returns>True if Connection succeded, false if connection couldn't start.</returns>
-        public static bool ConnectToDevice(string ipAddress, string device)
-        {
-            //TODO for repair
-            Task<string> t = GetAdbOutputAsync($"connect {ipAddress}", device);
-            if (t.Wait(15000))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        /// <summary>
-        /// Sends to adb commandline coommands to certain device id.
-        /// </summary>
-        /// <param name="arguments">Command line arguments.</param>
-        /// <param name="device">Device id.</param>
-        public static void RunAdbCommand(string arguments, string device)
-        {
-            if (!string.IsNullOrEmpty(device))
-            {
-                arguments = $"-s {device} {arguments}";
-            }
-            RunAdbCommand(arguments);
-        }
-
         /// <summary>
         /// Runs ADB with the specified arguments.
         /// </summary>
@@ -308,6 +293,50 @@ namespace AdbLibrary.Android
             else
             {
                 throw new ArgumentNullException();
+            }
+        }
+
+        /// <summary>
+        /// Sends to adb commandline coommands to certain device id.
+        /// </summary>
+        /// <param name="arguments">Command line arguments.</param>
+        /// <param name="device">Device id.</param>
+        public static void RunAdbCommand(string arguments, string device)
+        {
+            if (!string.IsNullOrEmpty(device))
+            {
+                arguments = $"-s {device} {arguments}";
+                RunAdbCommand(arguments);
+            }
+            else
+            {
+                throw new Exception("Device cannot be null");
+            }
+        }
+
+        /// <summary>
+        /// Run adb command by transport id.
+        /// </summary>
+        /// <param name="arguments">Command line arguments.</param>
+        /// <param name="transportId">Transport id.</param>
+        public static void RunAdbCommand(string arguments, int transportId)
+        {
+            try
+            {
+                if (transportId > 0)
+                {
+                    arguments = $"-t {transportId} {arguments}";
+                    RunAdbCommand(arguments);
+                }
+                else
+                {
+                    throw new Exception("Invalid transport id");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 

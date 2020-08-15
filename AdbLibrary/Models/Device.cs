@@ -12,11 +12,12 @@ namespace AdbLibrary.Models
         /// </summary>
         /// <param name="id">The device ID.</param>
         /// <param name="description">The device description.</param>
-        public Device(string id, string description)
+        public Device(string id)
         {
             ID = id;
-            Description = description;
         }
+
+        public int TransportId { get; set; }
 
         /// <summary>
         /// Gets the device identifier.
@@ -26,7 +27,7 @@ namespace AdbLibrary.Models
         /// <summary>
         /// Gets the device description.
         /// </summary>
-        public string Description { get; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Parameters of display of android.
@@ -47,6 +48,8 @@ namespace AdbLibrary.Models
         /// Gets or sets the value of android api version.
         /// </summary>
         public AdbWrapper.AndroidVersion Version { get; set; }
-
+        public string Product { get; internal set; }
+        public string Model { get; internal set; }
+        public string DeviceName { get; internal set; }
     }
 }
