@@ -186,6 +186,17 @@ namespace AdbLibrary.Android
         {
             RunAdbCommand($"tcpip {port}", device);
         }
+        /// <summary>
+        /// Unlocking adb via tcpip.
+        /// </summary>
+        /// <param name="device">Device Id.</param>
+        /// <param name="port">Port for unlocking device.</param>
+        public static void UnlockTcpip(int device, int port = 5555)
+        {
+            RunAdbCommand($"tcpip {port}", device);
+        }
+
+
 
         /// <summary>
         /// Sends the command to reboot to recovery
@@ -194,7 +205,17 @@ namespace AdbLibrary.Android
         public static void RebootRecovery(string device)
         {
             RunAdbCommand("reboot recovery", device);
+        }        
+        /// <summary>
+        /// Sends the command to reboot to recovery
+        /// </summary>
+        /// <param name="transportId">Device transport id.</param>
+        public static void RebootRecovery(int transportId)
+        {
+            RunAdbCommand("reboot recovery", transportId);
         }
+
+
 
         /// <summary>
         /// Connecting to device by its ipAddress
@@ -214,6 +235,7 @@ namespace AdbLibrary.Android
             }
         }
 
+
         /// <summary>
         /// Runs ADB with the specified arguments to certain device.
         /// </summary>
@@ -228,6 +250,39 @@ namespace AdbLibrary.Android
             else
             {
                 throw new Exception("Device id cannot be null or empty");
+            }
+            if (!string.IsNullOrEmpty(arguments))
+            {
+                var output = await GetAdbOutputAsync(arguments);
+                if (output.Contains($"not found"))
+                {
+                    throw new Exception("Device not found.");
+                }
+                else if (output.Contains($"more than one"))
+                {
+                    throw new Exception("error: more than one device/emulator");
+                }
+                return output;
+            }
+            else
+            {
+                throw new ArgumentNullException(arguments);
+            }
+        }        
+        /// <summary>
+        /// Runs ADB with the specified arguments to certain device.
+        /// </summary>
+        /// <param name="arguments">The arguments to run against ADB.</param>
+        /// <returns>The output of ADB.</returns>
+        public static async Task<string> GetAdbOutputAsync(string arguments, int transportId)
+        {
+            if (transportId > 0)
+            {
+                arguments = $"-t {transportId} {arguments}";
+            }
+            else
+            {
+                throw new Exception("Device transport id must be greater than 0");
             }
             if (!string.IsNullOrEmpty(arguments))
             {
@@ -296,6 +351,7 @@ namespace AdbLibrary.Android
             }
         }
 
+
         /// <summary>
         /// Sends to adb commandline coommands to certain device id.
         /// </summary>
@@ -313,7 +369,6 @@ namespace AdbLibrary.Android
                 throw new Exception("Device cannot be null");
             }
         }
-
         /// <summary>
         /// Run adb command by transport id.
         /// </summary>
@@ -340,6 +395,7 @@ namespace AdbLibrary.Android
             }
         }
 
+
         /// <summary>
         /// Sends to adb commandline coommands.
         /// </summary>
@@ -357,7 +413,6 @@ namespace AdbLibrary.Android
                 throw;
             }
         }
-
         /// <summary>
         /// Create a process of adb.
         /// </summary>
