@@ -13,7 +13,8 @@ namespace AdbLibrary.Test
         [Test]
         public static void GetOutputFromAapt()
         {
-            string output = AaptWrapper.GetAaptOutput("dump badging \"/data/app/com.google.android.calendar-cMQvji6ZR0gf2cFHjBp7Kw==/base.apk\"", Constant.deviceId);
+            string apkPath = ProgramManager.GetApp("com.google.android.calendar", Constant.DeviceId).Result.PackagePath;
+            string output = AaptWrapper.GetAaptOutput($"dump badging {apkPath}", Constant.DeviceId);
             Assert.IsTrue(output.Contains("Calendar"));
         }
     }

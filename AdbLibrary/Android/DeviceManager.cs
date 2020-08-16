@@ -41,9 +41,9 @@ namespace AdbLibrary.Android
         /// <summary>
         /// Gets the device model.
         /// </summary>
-        /// <param name="device">The device ID.</param>
+        /// <param name="device">The device.</param>
         /// <returns>The device model name.</returns>
-        public static async Task<string> GetDeviceModelAsync(string device)
+        public static async Task<string> GetDeviceModelAsync(Device device)
         {
             string output = await AdbWrapper.GetAdbOutputAsync($"shell getprop ro.product.model", device);
             return output.Trim();
@@ -53,7 +53,7 @@ namespace AdbLibrary.Android
         /// </summary>
         /// <param name="device">The device ID.</param>
         /// <returns>The device manufacturer.</returns>
-        public static async Task<string> GetDeviceManufacturerAsync(string device)
+        public static async Task<string> GetDeviceManufacturerAsync(Device device)
         {
             string output = await AdbWrapper.GetAdbOutputAsync($"shell getprop ro.product.manufacturer", device);
             return output.Trim();
@@ -62,7 +62,7 @@ namespace AdbLibrary.Android
         /// <summary>
         /// Gets connected and authorized devices Ids.
         /// </summary>
-        /// <returns>A list of device IDs.</returns>
+        /// <returns>A list of devices.</returns>
         public static async Task<List<Device>> GetAuthorizedDevicesIdAsync()
         {
             AdbWrapper.StartServer();
@@ -95,7 +95,7 @@ namespace AdbLibrary.Android
         public static async Task<Device> GetAuthorizedDevice(string deviceId)
         {
             Device device = new Device(deviceId);
-            device.Description = $"{await GetDeviceManufacturerAsync(deviceId)} {await GetDeviceModelAsync(deviceId)}";
+            device.Description = $"{await GetDeviceManufacturerAsync(device)} {await GetDeviceModelAsync(device)}";
             return device;
         }
 
@@ -134,7 +134,7 @@ namespace AdbLibrary.Android
         /// </summary>
         /// <param name="device">Device Id.</param>
         /// <returns>Ip of wifi address.</returns>
-        public static async Task<IPAddress> GetIpOfCurrentWiFiConnection(string device)
+        public static async Task<IPAddress> GetIpOfCurrentWiFiConnection(Device device)
         {
             string output = await AdbWrapper.GetAdbOutputAsync("shell ip addr show wlan0", device);
             if (output.Contains("inet"))
@@ -144,6 +144,10 @@ namespace AdbLibrary.Android
                 int endIp = output.IndexOf('/');
                 output = output.Substring(0, endIp);
             }
+            else if (output.Contains("NO-CARRIER"))
+            {
+                throw new Exception("Device is no connected to wifi.");
+            }
             return IPAddress.Parse(output);
         }
 
@@ -152,7 +156,7 @@ namespace AdbLibrary.Android
         /// </summary>
         /// <param name="device">Device Id.</param>
         /// <returns>Api version number.</returns>
-        public static async Task<AdbWrapper.AndroidVersion> GetAndroidVersionAsync(string device)
+        public static async Task<AdbWrapper.AndroidVersion> GetAndroidVersionAsync(Device device)
         {
             string output = await AdbWrapper.GetAdbOutputAsync("shell getprop ro.build.version.sdk", device);
             output = output.Trim();

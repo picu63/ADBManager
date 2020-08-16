@@ -14,9 +14,12 @@ namespace AdbLibrary.Models
         /// <param name="description">The device description.</param>
         public Device(string id)
         {
-            ID = id;
+            this.ID = id;
         }
-
+        public Device(int transportId)
+        {
+            this.TransportId = transportId;
+        }
         public int TransportId { get; set; }
 
         /// <summary>

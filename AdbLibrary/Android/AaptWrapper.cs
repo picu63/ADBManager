@@ -1,4 +1,5 @@
 ﻿using AdbLibrary.Android;
+using AdbLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,9 +10,17 @@ using System.Threading.Tasks;
 
 namespace AdbLibrary.Android
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class AaptWrapper
     {
-        public static async Task<bool> PushAaptToDevice(string device)
+        /// <summary>
+        /// Pushing binaries of aapt for selected device.
+        /// </summary>
+        /// <param name="device">Transport id.</param>
+        /// <returns>True if pushing aapt to device success.</returns>
+        public static async Task<bool> PushAaptToDevice(Device device)
         {
             string cpuVersion = await AdbWrapper.GetAdbOutputAsync("shell getprop ro.product.cpu.abi", device);
             bool pushed = false;

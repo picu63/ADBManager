@@ -14,7 +14,7 @@ namespace AdbLibrary.Test
         public void GetAppFromPackage()
         {
             string packageName = "com.google.android.calendar";
-            App app = ProgramManager.GetApp(packageName, Constant.deviceId).Result;
+            App app = ProgramManager.GetApp(packageName, Constant.DeviceId).Result;
             Console.WriteLine(app.PackagePath);
         }
     }

@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using JCore.JLog;
 using System.Runtime.CompilerServices;
+using System.Reflection;
+using System.Threading;
 
 namespace AdbLibrary.Android
 {
@@ -17,6 +19,8 @@ namespace AdbLibrary.Android
     /// </summary>
     public static class AdbWrapper
     {
+        private static object adbProcessLock = new object();
+
         /// <summary>
         /// Key sended to device.
         /// </summary>
@@ -176,7 +180,16 @@ namespace AdbLibrary.Android
             Process adb = Process.Start(psi);
             adb.WaitForExit();
         }
-
+       
+        /// <summary>
+        /// Unlocking adb via tcpip.
+        /// </summary>
+        /// <param name="device">Device Id.</param>
+        /// <param name="port">Port for unlocking device.</param>
+        public static void UnlockTcpip(Device device, int port = 5555)
+        {
+            RunAdbCommand($"tcpip {port}", device);
+        }
         /// <summary>
         /// Unlocking adb via tcpip.
         /// </summary>
@@ -221,31 +234,54 @@ namespace AdbLibrary.Android
         /// Connecting to device by its ipAddress
         /// </summary>
         /// <param name="ipAddress">Wlan Ip of device.</param>
+        /// <param name="port">Port of </param>
         /// <returns>True if Connection succeded, false if connection couldn't start.</returns>
-        public static bool ConnectToDevice(string ipAddress)
+        public static bool ConnectToDevice(string ipAddress, int port = 5555)
         {
-            Task<string> t = GetAdbOutputAsync($"connect {ipAddress}");
+            Task<string> t = GetAdbOutputAsync($"connect {ipAddress}:{port}");
             if (t.Wait(10000))
             {
                 return t.Result.Contains("connected");
             }
             else
             {
+                new Exception("Cannot connect.");
                 return false;
             }
         }
-
 
         /// <summary>
         /// Runs ADB with the specified arguments to certain device.
         /// </summary>
         /// <param name="arguments">The arguments to run against ADB.</param>
+        /// <param name="device">Android device.</param>
         /// <returns>The output of ADB.</returns>
-        public static async Task<string> GetAdbOutputAsync(string arguments, string device)
+        public static async Task<string> GetAdbOutputAsync(string arguments, Device device)
         {
-            if (!string.IsNullOrEmpty(device))
+            if (!string.IsNullOrEmpty(device.ID))
             {
-                arguments = $"-s {device} {arguments}";
+                return await GetAdbOutputAsync(arguments, device.ID);
+            }
+            else if (device.TransportId > 0)
+            {
+                return await GetAdbOutputAsync(arguments, device.TransportId);
+            }
+            else
+            {
+                throw new Exception($"At least one of device {nameof(device.ID)} or {nameof(device.TransportId)} have to exist.");
+            }
+        }
+        /// <summary>
+        /// Runs ADB with the specified arguments to certain device.
+        /// </summary>
+        /// <param name="arguments">The arguments to run against ADB.</param>
+        /// <param name="deviceId">Device SERIAL.</param>
+        /// <returns>The output of ADB.</returns>
+        public static async Task<string> GetAdbOutputAsync(string arguments, string deviceId)
+        {
+            if (!string.IsNullOrEmpty(deviceId))
+            {
+                arguments = $"-s {deviceId} {arguments}";
             }
             else
             {
@@ -317,7 +353,6 @@ namespace AdbLibrary.Android
                     var process = CreateAdbProcess(arguments);
                     process.Start();
                     string output = await process.StandardOutput.ReadToEndAsync();
-
                     if (!string.IsNullOrEmpty(output))
                     {
                         return output;
@@ -338,7 +373,6 @@ namespace AdbLibrary.Android
                         string combindedString = sb.ToString();
                         return combindedString;
                     }
-
                 }
                 catch (Exception)
                 {
@@ -353,15 +387,35 @@ namespace AdbLibrary.Android
 
 
         /// <summary>
-        /// Sends to adb commandline coommands to certain device id.
+        /// Sends to adb commandline coommands to device.
         /// </summary>
         /// <param name="arguments">Command line arguments.</param>
-        /// <param name="device">Device id.</param>
-        public static void RunAdbCommand(string arguments, string device)
+        /// <param name="device">Device object with transport id or device id.</param>
+        public static void RunAdbCommand(string arguments, Device device)
         {
-            if (!string.IsNullOrEmpty(device))
+            if (!string.IsNullOrEmpty(device.ID))
             {
-                arguments = $"-s {device} {arguments}";
+                RunAdbCommand(arguments, device.ID);
+            }
+            else if (device.TransportId > 0)
+            {
+                RunAdbCommand(arguments, device.TransportId);
+            }
+            else
+            {
+                throw new Exception($"At least one of device {device.ID} or {device.TransportId} have to exist.");
+            }
+        }
+        /// <summary>
+        /// Run adb command to device by serial number or wlan address.
+        /// </summary>
+        /// <param name="arguments">Command line arguments.</param>
+        /// <param name="deviceId">Device id or wlan ip address.</param>
+        public static void RunAdbCommand(string arguments, string deviceId)
+        {
+            if (!string.IsNullOrEmpty(deviceId))
+            {
+                arguments = $"-s {deviceId} {arguments}";
                 RunAdbCommand(arguments);
             }
             else
@@ -370,7 +424,7 @@ namespace AdbLibrary.Android
             }
         }
         /// <summary>
-        /// Run adb command by transport id.
+        /// Run adb command to device by <paramref name="transportId"/>.
         /// </summary>
         /// <param name="arguments">Command line arguments.</param>
         /// <param name="transportId">Transport id.</param>
@@ -397,7 +451,7 @@ namespace AdbLibrary.Android
 
 
         /// <summary>
-        /// Sends to adb commandline coommands.
+        /// Runs process of adb with given <paramref name="arguments"/>.
         /// </summary>
         /// <param name="arguments">Command line arguments.</param>
         private static void RunAdbCommand(string arguments)
@@ -414,10 +468,10 @@ namespace AdbLibrary.Android
             }
         }
         /// <summary>
-        /// Create a process of adb.
+        /// Create a process of executable adb.
         /// </summary>
         /// <param name="arguments">All of the arguments for adb.</param>
-        /// <returns></returns>
+        /// <returns>Process with <see cref="Process.StartInfo"/> object.</returns>
         private static Process CreateAdbProcess(string arguments)
         {
             Process process = new Process();

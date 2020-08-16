@@ -6,6 +6,10 @@ namespace AdbLibrary.Models
 {
     public class App
     {
+
+        /// <summary>
+        /// Base apk path on device.
+        /// </summary>
         public string PackagePath { get; set; }
     }
 }
