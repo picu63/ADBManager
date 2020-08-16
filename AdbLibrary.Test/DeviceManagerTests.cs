@@ -25,6 +25,5 @@ namespace AdbLibrary.Test
             Console.WriteLine($"{version}");
             Assert.That(version == androidVersion);
         }
-        
     }
 }

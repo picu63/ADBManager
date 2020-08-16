@@ -255,7 +255,7 @@ namespace AdbLibrary.Android
         /// </summary>
         /// <param name="arguments">The arguments to run against ADB.</param>
         /// <param name="device">Android device.</param>
-        /// <returns>The output of ADB.</returns>
+        /// <returns>The output from ADB.</returns>
         public static async Task<string> GetAdbOutputAsync(string arguments, Device device)
         {
             if (!string.IsNullOrEmpty(device.ID))
@@ -276,7 +276,7 @@ namespace AdbLibrary.Android
         /// </summary>
         /// <param name="arguments">The arguments to run against ADB.</param>
         /// <param name="deviceId">Device SERIAL.</param>
-        /// <returns>The output of ADB.</returns>
+        /// <returns>The output from ADB.</returns>
         public static async Task<string> GetAdbOutputAsync(string arguments, string deviceId)
         {
             if (!string.IsNullOrEmpty(deviceId))
@@ -309,7 +309,7 @@ namespace AdbLibrary.Android
         /// Runs ADB with the specified arguments to certain device.
         /// </summary>
         /// <param name="arguments">The arguments to run against ADB.</param>
-        /// <returns>The output of ADB.</returns>
+        /// <returns>The output from ADB.</returns>
         public static async Task<string> GetAdbOutputAsync(string arguments, int transportId)
         {
             if (transportId > 0)
