@@ -15,7 +15,12 @@ namespace AdbManager.GUI
         /// <summary>
         /// Object of scrcpyFrm.
         /// </summary>
-        ScrcpyWin scrcpyFrm;
+        private ScrcpyWin scrcpyFrm;
+
+        /// <summary>
+        /// Frame around scrcpyMainPanel.
+        /// </summary>
+        private int scrcpyFrmMargin = 6;
 
         /// <summary>
         /// Current selected device from ComboBox.
@@ -28,10 +33,6 @@ namespace AdbManager.GUI
         private List<Device> connectedDevices;
         private object deviceLock = new object();
 
-        /// <summary>
-        /// Frame around scrcpyMainPanel.
-        /// </summary>
-        int scrcpyFrmMargin = 6;
 
         public MainWindow()
         {
@@ -100,7 +101,7 @@ namespace AdbManager.GUI
         public async void GetDevicesAsync()
         {
             var devicesTasks = (await DeviceManager.GetAuthorizedDevicesIdAsync())
-                .Select(async s => new Device(s) { Description = $"{await DeviceManager.GetDeviceManufacturerAsync(s)} {await DeviceManager.GetDeviceModelAsync(s)}" })
+                .Select(async d => new Device(d.ID) { Description = $"{await DeviceManager.GetDeviceManufacturerAsync(d)} {await DeviceManager.GetDeviceModelAsync(d)}" })
                 .ToList();
             Device[] devicesT = await Task.WhenAll(devicesTasks);
             if (devicesT.Length != connectedDevices.Count)

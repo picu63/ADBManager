@@ -20,6 +20,10 @@ namespace AdbLibrary.Models
         {
             this.TransportId = transportId;
         }
+
+        /// <summary>
+        /// Transport id
+        /// </summary>
         public int TransportId { get; set; }
 
         /// <summary>

@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,20 +38,20 @@ namespace AdbLibrary.Android
             return pushed;
         }
 
-
-        public static string GetAaptOutput(string arguments, string device)
+        /// <summary>
+        /// Gets the string 
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="device"></param>
+        /// <returns></returns>
+        public static async Task<string> GetAaptOutput(string arguments, Device device)
         {
-            if (string.IsNullOrEmpty(device))
-            {
-                throw new Exception($"{nameof(device)} cannot be null or empty");
-            }
             if (string.IsNullOrEmpty(arguments))
             {
                 throw new Exception($"{nameof(arguments)} cannot be null or empty");
             }
-
             string cmd = $"shell \"{ToolingPaths.AaptPathOnDevice}\" {arguments}";
-            string output = AdbWrapper.GetAdbOutputAsync(cmd, device).Result;
+            string output = await AdbWrapper.GetAdbOutputAsync(cmd, device);
 
             return output;
         }

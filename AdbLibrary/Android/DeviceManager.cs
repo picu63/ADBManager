@@ -65,25 +65,33 @@ namespace AdbLibrary.Android
         /// <returns>A list of devices.</returns>
         public static async Task<List<Device>> GetAuthorizedDevicesIdAsync()
         {
-            AdbWrapper.StartServer();
-            List<Device> devices = new List<Device>();
-            string output = await AdbWrapper.GetAdbOutputAsync("devices -l");
-            string[] lines = output.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Skip(1).Where(l => l.ToString().Contains("device")).ToArray();
-            foreach (string line in lines)
+            try
             {
-                string deviceId = line.Substring(0, line.IndexOf("device")).Trim();
-                string[] prop = line.Substring(line.IndexOf("device")).Split(' ');
+                AdbWrapper.StartServer();
+                List<Device> devices = new List<Device>();
+                string output = await AdbWrapper.GetAdbOutputAsync("devices -l");
+                string[] lines = output.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                    .Skip(1).Where(l => l.Contains("device")).ToArray();
+                foreach (string line in lines)
+                {
+                    string deviceId = line.Substring(0, line.IndexOf("device")).Trim();
+                    string[] prop = line.Substring(line.IndexOf("device")).Split(' ');
 
-                Device device = new Device(deviceId);
-                device.Product = prop[1].Split(':')[1];
-                device.Model = prop[2].Split(':')[1];
-                device.DeviceName = prop[3].Split(':')[1];
-                device.TransportId = int.Parse(prop[4].Split(':')[1]);
+                    Device device = new Device(deviceId);
+                    device.Product = prop[1].Split(':')[1];
+                    device.Model = prop[2].Split(':')[1];
+                    device.DeviceName = prop[3].Split(':')[1];
+                    device.TransportId = int.Parse(prop[4].Split(':')[1]);
 
-                devices.Add(device);
+                    devices.Add(device);
+                }
+                return devices;
             }
-            return devices;
+            catch (Exception)
+            {
+
+                throw;
+            }
                 
         }
 

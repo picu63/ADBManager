@@ -11,6 +11,7 @@ using JCore.JLog;
 using System.Runtime.CompilerServices;
 using System.Reflection;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace AdbLibrary.Android
 {
@@ -385,6 +386,17 @@ namespace AdbLibrary.Android
             }
         }
 
+        /// <summary>
+        /// Converts string to list of lines without empty lines.
+        /// </summary>
+        /// <param name="adbOutput"></param>
+        /// <returns></returns>
+        public static List<string> ToList(this string adbOutput)
+        {
+            var withoutWhitespace = Regex.Replace(adbOutput, @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline).TrimEnd();
+            var lines = withoutWhitespace.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+            return lines;
+        }
 
         /// <summary>
         /// Sends to adb commandline coommands to device.

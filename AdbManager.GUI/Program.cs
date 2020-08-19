@@ -1,3 +1,4 @@
+using AdbLibrary.Android;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,22 @@ namespace AdbManager.GUI
         [STAThread]
         static void Main()
         {
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            try
+            {
+                Application.SetHighDpiMode(HighDpiMode.SystemAware);
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainWindow());
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                AdbWrapper.KillServer();
+            }
         }
     }
 }
